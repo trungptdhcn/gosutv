@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    
+    <!-- Progress Wheel styles -->
+    <style name="ProgressBarStyle">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="barLength">20dp</item>
+        <item name="barWidth">6dp</item>
+        <item name="contourColor">@android:color/transparent</item>
+        <item name="contourSize">0dp</item>
+        <item name="delayMillis">0</item>
+        <item name="radius">0dp</item>
+        <item name="rimWidth">6dp</item>
+        <item name="spinSpeed">1dp</item>
+        <item name="textColor">@android:color/white</item>
+        <item name="textSize">12sp</item>
+    </style>
+
+    <style name="ProgressBarStyle.Main" parent="@style/ProgressBarStyle">
+        <item name="barColor">@color/main_color_500</item>
+        <item name="circleColor">@color/main_color_200</item>
+        <item name="rimColor">@color/main_color_300</item>
+    </style>
+
+    <style name="ProgressBarStyle.Reverse" parent="@style/ProgressBarStyle">
+        <item name="barColor">@color/main_color_200</item>
+        <item name="circleColor">@android:color/transparent</item>
+        <item name="rimColor">@color/main_color_500</item>
+    </style>
+
+    <style name="ProgressBarStyle.Accent" parent="@style/ProgressBarStyle">
+        <item name="barColor">@color/main_color_500</item>
+        <item name="circleColor">@color/main_color_A100</item>
+        <item name="rimColor">@color/main_color_A400</item>
+    </style>
+
+    <style name="ProgressBarStyle.Big" parent="@style/ProgressBarStyle">
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="barColor">@color/main_color_500</item>
+        <item name="circleColor">@color/main_color_A400</item>
+        <item name="rimColor">@color/main_color_700</item>
+        <item name="textSize" tools:ignore="SpUsage">24dp</item>
+    </style>
+    
+
+</resources>

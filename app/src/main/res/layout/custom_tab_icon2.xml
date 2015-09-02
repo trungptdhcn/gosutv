@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.icom.gosutv.ui.customview.TintableImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:padding="6dp"
+    android:background="@null"
+    android:scaleType="center"
+    app:tint="@drawable/custom_tab_icon"
+    />
+

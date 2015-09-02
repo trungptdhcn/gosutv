@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/list_item_card_big_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/cardMarginVertical"
+            android:layout_marginLeft="@dimen/cardMarginHorizontal"
+            android:layout_marginRight="@dimen/cardMarginHorizontal"
+            android:layout_marginTop="@dimen/cardMarginVertical"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="2dp"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="0dp">
+        <LinearLayout 
+                      xmlns:app="http://schemas.android.com/apk/res"
+                      android:layout_width="match_parent"
+                      android:layout_height="340dp"
+                      android:background="@drawable/card_background_white"
+                      android:minHeight="340dp"
+                      android:orientation="vertical" >
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_weight="1"
+                    android:minHeight="190dp" >
+
+                <ImageView
+                        android:id="@+id/list_item_card_big_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/cd_main_image"
+                        android:scaleType="centerCrop" />
+            </RelativeLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:background="@drawable/google_cards_background_bottom"
+                    android:gravity="right"
+                    android:orientation="vertical" >
+
+                <TextView
+                        android:id="@+id/list_item_card_big_tvTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Eat at Joe"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                       />
+
+                <TextView
+                        android:id="@+id/list_item_card_big_tvSapo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:gravity="right"
+                        android:maxLines="3"
+                        android:text="@string/lorem_ipsum_long"
+                        android:textColor="@color/material_blue_grey_700"
+                        android:textSize="14sp"
+                        />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

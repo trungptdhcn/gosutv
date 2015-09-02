@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toolbarElevation">4dp</dimen>
+    <dimen name="appBarTopMargin">0dp</dimen>
+    <dimen name="statusBarHeight">0dp</dimen>
+    <dimen name="statusBarElevation">4dp</dimen>
+</resources>

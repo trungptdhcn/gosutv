@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RobotoTextView">
+        <attr name="typeface" format="enum">
+            <enum name="robotoBlack" value="0"/>
+            <enum name="robotoBlackItalic" value="1"/>
+            <enum name="robotoBold" value="2"/>
+            <enum name="robotoBoldItalic" value="3"/>
+            <enum name="robotoBoldCondensed" value="4"/>
+            <enum name="robotoBoldCondensedItalic" value="5"/>
+            <enum name="robotoCondensed" value="6"/>
+            <enum name="robotoCondensedItalic" value="7"/>
+            <enum name="robotoItalic" value="8"/>
+            <enum name="robotoLight" value="9"/>
+            <enum name="robotoLightItalic" value="10"/>
+            <enum name="robotoMedium" value="11"/>
+            <enum name="robotoMediumItalic" value="12"/>
+            <enum name="robotoRegular" value="13"/>
+            <enum name="robotoThin" value="14"/>
+            <enum name="robotoThinItalic" value="15"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="TintableImageView">
+        <attr name="tint" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ProgressWheel">
+        <attr name="text" format="string" />
+        <attr name="textSize" format="dimension" />
+        <attr name="barColor" format="color" />
+        <attr name="rimColor" format="color" />
+        <attr name="rimWidth" format="dimension" />
+        <attr name="spinSpeed" format="dimension" />
+        <attr name="delayMillis" format="integer" />
+        <attr name="circleColor" format="color" />
+        <attr name="radius" format="dimension" />
+        <attr name="barWidth" format="dimension" />
+        <attr name="barLength" format="dimension" />
+        <attr name="contourColor" format="color" />
+        <attr name="contourSize" format="dimension" />
+    </declare-styleable>
+    <!--===================Scale Layout===================-->
+    <declare-styleable name="ScaledLinearLayout">
+        <attr name="linear_layout_ratio" format="float" />
+    </declare-styleable>
+
+</resources>
