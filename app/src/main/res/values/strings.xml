@@ -25,5 +25,8 @@
     <string name="cd_main_image">main image</string>
     <string name="lorem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="description">Media Controls</string>
+    <string name="title_activity_video_detail">VideoDetailActivity</string>
+    <string name="related">Bài viết liên quan</string>
 
 </resources>

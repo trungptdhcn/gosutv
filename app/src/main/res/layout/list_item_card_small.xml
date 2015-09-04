@@ -33,7 +33,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:layout_toRightOf="@+id/list_item_card_small_ivImage">
-                <com.icom.gosutv.ui.customview.RobotoTextView
+                <TextView
                         android:id="@+id/list_item_card_small_tvTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -44,9 +44,9 @@
                         android:text="Eat at Joe"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_mini"
-                        app:typeface="robotoRegular"/>
                         />
-                <com.icom.gosutv.ui.customview.RobotoTextView
+                        />
+                <TextView
                         android:id="@+id/list_item_card_small_tvDes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

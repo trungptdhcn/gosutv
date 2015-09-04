@@ -33,6 +33,7 @@ public class ListFeedCategoryActivity extends FragmentActivity
 {
     private MaterialViewPager mViewPager;
     private int gid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -61,6 +62,7 @@ public class ListFeedCategoryActivity extends FragmentActivity
                 if (gid == 0)
                 {
                     return Constants.DOTA_2;
+
                 }
                 else
                 {
@@ -68,34 +70,9 @@ public class ListFeedCategoryActivity extends FragmentActivity
                 }
             }
         });
-        new AsyncTask<String, List<FeedDTO>, List<FeedDTO>>()
+        switch (gid)
         {
-            @Override
-            protected void onPreExecute()
-            {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected List<FeedDTO> doInBackground(String... strings)
-            {
-                List<FeedDTO> storyDTOs;
-                if (gid == 0)
-                {
-                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, null, 4, null);
-                }
-                else
-                {
-                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, null, 3, null);
-                }
-                return storyDTOs;
-            }
-
-            @Override
-            protected void onPostExecute(final List<FeedDTO> feedDTOs)
-            {
-                super.onPostExecute(feedDTOs);
-                final List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(feedDTOs);
+            case 0:
                 mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener()
                 {
                     @Override
@@ -103,17 +80,59 @@ public class ListFeedCategoryActivity extends FragmentActivity
                     {
                         return HeaderDesign.fromColorResAndUrl(
                                 R.color.main_color_500,
-                                "http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2014/06/wallpaper_51.jpg");
+                                "http:\\/\\/img.gosutv.vn\\/pictures\\/2015\\/09\\/01\\/1441102535_IDaTZ7w4.jpg");
 
                     }
                 });
-                EventBus.getDefault().post(new AddCoverActivityEvent(feedModels));
-//                CommonRecycleViewAdapter adapter = new CommonRecycleViewAdapter(feedModels);
-//                mAdapter = new RecyclerViewMaterialAdapter(adapter);
-//                mRecyclerView.setAdapter(mAdapter);
-//                EventBus.getDefault().post(new AddCoverActivityEvent(feedDTOs.get(0).getThumb()));
-            }
-        }.execute();
+                break;
+            case 1:
+                mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener()
+                {
+                    @Override
+                    public HeaderDesign getHeaderDesign(int page)
+                    {
+                        return HeaderDesign.fromColorResAndUrl(
+                                R.color.main_color_500,
+                                "http://img.gosutv.vn/pictures/2015/09/03/1441245106_miggFw3C.jpg");
+
+                    }
+                });
+        }
+//        new AsyncTask<String, List<FeedDTO>, List<FeedDTO>>()
+//        {
+//            @Override
+//            protected void onPreExecute()
+//            {
+//                super.onPreExecute();
+//            }
+//
+//            @Override
+//            protected List<FeedDTO> doInBackground(String... strings)
+//            {
+//                List<FeedDTO> storyDTOs;
+//                if (gid == 0)
+//                {
+//                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, null, 4, null);
+//                }
+//                else
+//                {
+//                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, null, 3, null);
+//                }
+//                return storyDTOs;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(final List<FeedDTO> feedDTOs)
+//            {
+//                super.onPostExecute(feedDTOs);
+//                final List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(feedDTOs);
+//                EventBus.getDefault().post(new AddCoverActivityEvent(feedModels));
+////                CommonRecycleViewAdapter adapter = new CommonRecycleViewAdapter(feedModels);
+////                mAdapter = new RecyclerViewMaterialAdapter(adapter);
+////                mRecyclerView.setAdapter(mAdapter);
+////                EventBus.getDefault().post(new AddCoverActivityEvent(feedDTOs.get(0).getThumb()));
+//            }
+//        }.execute();
 
 
         mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());

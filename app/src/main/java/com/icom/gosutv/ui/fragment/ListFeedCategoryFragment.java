@@ -55,10 +55,6 @@ public class ListFeedCategoryFragment extends BaseFragment
         this.gid = gid;
     }
 
-    private static final int ITEM_COUNT = 100;
-
-    private List<Object> mContentItems = new ArrayList<>();
-
     @Override
     public int getLayout()
     {
@@ -100,7 +96,7 @@ public class ListFeedCategoryFragment extends BaseFragment
             {
                 super.onPostExecute(feedDTOs);
                 List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(feedDTOs);
-                CommonRecycleViewAdapter adapter = new CommonRecycleViewAdapter(feedModels);
+                CommonRecycleViewAdapter adapter = new CommonRecycleViewAdapter(feedModels,false);
                 mAdapter = new RecyclerViewMaterialAdapter(adapter);
                 mRecyclerView.setAdapter(mAdapter);
 //                EventBus.getDefault().post(new AddCoverActivityEvent(feedDTOs.get(0).getThumb()));

@@ -14,18 +14,26 @@
             android:textSize="@dimen/text_size_normal"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"/>
-    <WebView
-            android:id="@+id/feed_detail_fragment_tvDes"
+    <LinearLayout
+            android:id="@+id/video_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/text_size_small"
-            android:layout_marginLeft="@dimen/spacing_mini"
-            android:layout_marginRight="@dimen/spacing_mini"
-            android:gravity="left"
-            android:text="Đi solo mid với Sniper, combat cùng đồng đội và lao vào cả nhà đối thủ đặt mìn...đó là Techies của Miracle. Chơi được rất nhiều hero khác nhau cùng phong cách không đụng hàng, chàng trai này đang cho chúng ta thấy đẳng cấp của một game thủ như nào khi ở 8K MMR."
-            android:textColor="@color/material_blue_grey_700"
-            android:textSize="@dimen/text_size_small"
-            android:layout_below="@+id/feed_detail_fragment_tvTitle"/>
+            android:layout_height="400dp"
+            android:background="@android:color/black"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical"
+            android:layout_below="@+id/feed_detail_fragment_tvTitle">
+        <FrameLayout
+                android:id="@+id/videoSurfaceContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <SurfaceView
+                    android:id="@+id/videoSurface"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </FrameLayout>
+    </LinearLayout>
+
     <com.pnikosis.materialishprogress.ProgressWheel
             android:id="@+id/feed_detail_fragment_bar"
             android:layout_width="match_parent"

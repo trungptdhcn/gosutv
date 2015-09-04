@@ -1,6 +1,7 @@
 package com.icom.gosutv.ui.model;
 
 import com.icom.gosutv.sao.dto.FeedDTO;
+import com.icom.gosutv.sao.dto.RelatedDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,12 +89,23 @@ public class FeedModel
         this.slug = slug;
     }
 
+
     public static List<FeedModel> convertFromFeedDTO(List<FeedDTO> feedDTOs)
     {
         List<FeedModel> feedModels = new ArrayList<>();
         for (FeedDTO feedDTO : feedDTOs)
         {
             FeedModel feedModel = convertFromFeedDTO(feedDTO);
+            feedModels.add(feedModel);
+        }
+        return feedModels;
+    }
+    public static List<FeedModel> convertFromRelatedDTO(List<RelatedDTO> relatedDTOs)
+    {
+        List<FeedModel> feedModels = new ArrayList<>();
+        for (RelatedDTO relatedDTO : relatedDTOs)
+        {
+            FeedModel feedModel = convertFromRelatedDTO(relatedDTO);
             feedModels.add(feedModel);
         }
         return feedModels;
@@ -108,6 +120,16 @@ public class FeedModel
         feedModel.setSapo(feedDTO.getSapo());
         feedModel.setThumb(feedDTO.getThumb());
         feedModel.setSlug(feedDTO.getSlug());
+        return feedModel;
+    }
+
+    public static FeedModel convertFromRelatedDTO(RelatedDTO relatedDTO)
+    {
+        FeedModel feedModel = new FeedModel();
+        feedModel.setTitle(relatedDTO.getTitle());
+        feedModel.setSapo(relatedDTO.getSapo());
+        feedModel.setThumb(relatedDTO.getThumb());
+        feedModel.setSlug(relatedDTO.getSlug());
         return feedModel;
     }
 }

@@ -11,7 +11,7 @@ public class RelatedDTO
     private String sapo;
     private String author;
     private Integer like;
-    private Long view;
+    private String view;
     private Long comment;
 
     public String getSlug()
@@ -74,12 +74,12 @@ public class RelatedDTO
         this.like = like;
     }
 
-    public Long getView()
+    public String getView()
     {
         return view;
     }
 
-    public void setView(Long view)
+    public void setView(String view)
     {
         this.view = view;
     }

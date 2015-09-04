@@ -1,6 +1,7 @@
 package com.icom.gosutv.ui.fragment;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import butterknife.InjectView;
+import butterknife.OnItemClick;
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -25,6 +27,7 @@ import com.icom.gosutv.sao.dto.FeedDTO;
 import com.icom.gosutv.ui.adapter.GoogleCardsTravelAdapter;
 import com.icom.gosutv.ui.adapter.ViewpagerAdapter;
 import com.icom.gosutv.ui.model.FeedModel;
+import com.icom.gosutv.utils.Constants;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
@@ -39,8 +42,8 @@ import java.util.TimerTask;
 /**
  * Created by Trung on 8/27/2015.
  */
-public class HomeFragment extends BaseFragment implements
-        OnDismissCallback
+public class HomeFragment extends BaseFragment
+//        OnDismissCallback
 {
     @InjectView(R.id.home_fragment_progress_bar)
     ProgressWheel progress;
@@ -84,7 +87,7 @@ public class HomeFragment extends BaseFragment implements
             {
                 super.onPostExecute(feedDTOs);
                 List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(feedDTOs);
-                final ViewpagerAdapter pagerAdapter = new ViewpagerAdapter(HomeFragment.this.getActivity(), feedModels);
+                final ViewpagerAdapter pagerAdapter = new ViewpagerAdapter(HomeFragment.this.getActivity(), feedModels.subList(0,5));
                 viewPager.setAdapter(pagerAdapter);
                 final Handler handler = new Handler();
                 final int[] currentPage = {0};
@@ -114,7 +117,7 @@ public class HomeFragment extends BaseFragment implements
                 mGoogleCardsAdapter = new GoogleCardsTravelAdapter(getActivity(),
                         feedModels);
                 SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(
-                        new SwipeDismissAdapter(mGoogleCardsAdapter, HomeFragment.this));
+                       mGoogleCardsAdapter);
                 swingBottomInAnimationAdapter.setAbsListView(listView);
                 assert swingBottomInAnimationAdapter.getViewAnimator() != null;
                 swingBottomInAnimationAdapter.getViewAnimator().setInitialDelayMillis(
@@ -137,10 +140,17 @@ public class HomeFragment extends BaseFragment implements
             }
         }.execute();
     }
-
-    @Override
-    public void onDismiss(@NonNull ViewGroup viewGroup, @NonNull int[] ints)
+    @OnItemClick(R.id.home_fragment_list_view)
+    public void clickOnItem(int position)
     {
-
+        Intent intent = new Intent(getActivity(),FeedDetailActivity.class);
+        intent.putExtra(Constants.SLUG, (mGoogleCardsAdapter.getItem(position)).getSlug());
+        startActivity(intent);
     }
+
+//    @Override
+//    public void onDismiss(@NonNull ViewGroup viewGroup, @NonNull int[] ints)
+//    {
+//
+//    }
 }

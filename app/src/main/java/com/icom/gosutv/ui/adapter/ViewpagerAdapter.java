@@ -1,6 +1,7 @@
 package com.icom.gosutv.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.icom.gosutv.R;
+import com.icom.gosutv.ui.fragment.FeedDetailActivity;
 import com.icom.gosutv.ui.model.FeedModel;
+import com.icom.gosutv.utils.Constants;
 import com.icom.gosutv.utils.ImageUtil;
 import com.icom.gosutv.utils.StringUtils;
 
@@ -53,12 +56,24 @@ public class ViewpagerAdapter extends PagerAdapter
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View viewLayout = inflater.inflate(R.layout.pager_hot_feed_item, container, false);
         ImageView imageView = (ImageView) viewLayout.findViewById(R.id.pager_hot_feed_item_ivImage);
+        RelativeLayout rlContainer = (RelativeLayout) viewLayout.findViewById(R.id.pager_hot_feed_item_rlContainer);
         TextView tvTitle = (TextView) viewLayout.findViewById(R.id.pager_hot_feed_item__tvTitle);
         if (StringUtils.isNotEmpty(feedModels.get(position).getTitle()))
         {
             tvTitle.setText(feedModels.get(position).getTitle());
         }
         ImageUtil.displayImage(imageView, feedModels.get(position).getThumb(), null);
+        rlContainer.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(view.getContext(), FeedDetailActivity.class);
+                String slug = feedModels.get(position).getSlug();
+                intent.putExtra(Constants.SLUG, slug);
+                view.getContext().startActivity(intent);
+            }
+        });
         container.addView(viewLayout);
         return viewLayout;
     }

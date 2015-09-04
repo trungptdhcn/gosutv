@@ -5,11 +5,17 @@ package com.icom.gosutv.utils;
  */
 public class Constants
 {
+    public static final String DEVELOPER_KEY = "AIzaSyDnzXsyR1U3hdNv5vk3COwoZaY6TgWSYsk";
     public static String BASE_URL = "http://gosutv.vn/api/";
     public static String GID = "gid";
     public static String DOTA_2 = "DOTA 2";
     public static String LOL = "LOL";
     public static String SLUG = "slug";
+    public static String DISPLAY_TYPE_VIDEO = "video";
+    public static String DISPLAY_TYPE_NEWS = "news";
+    public static String DISPLAY_TYPE_PHOTO = "photos";
+    public static String SCR_TYPE_VIDEO_CONNECT360 = "connect360";
+    public static String SCR_TYPE_VIDEO_YOUTUBE = "youtube";
     public static String HEADER_HTML = "<html>\n" +
             "<head>\n" +
             "<style type=\"text/css\">\n" +

@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class ItemDTO
 {
+    @SerializedName("uuid")
     private String id;
     private String title;
     private String thumb;
@@ -21,7 +22,7 @@ public class ItemDTO
     private List<PhotoDTO> photoDTOs;
     private String author;
     private Integer like;
-    private Long view;
+    private String view;
     private Long comment;
 
     public String getId()
@@ -134,12 +135,12 @@ public class ItemDTO
         this.like = like;
     }
 
-    public Long getView()
+    public String getView()
     {
         return view;
     }
 
-    public void setView(Long view)
+    public void setView(String view)
     {
         this.view = view;
     }

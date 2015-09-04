@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Purple -->
-    <color name="material_purple_500">#8f3e97</color>
+    <color name="material_purple_500">#ed6d22</color>
     <color name="material_purple_50">#f1e3f0</color>
     <color name="material_purple_100">#ddbdda</color>
     <color name="material_purple_200">#c694c2</color>
