@@ -17,11 +17,10 @@ public class CategoryGroup extends Group
     private String title;
     private String description;
     private String imageUrl;
-    private Context context;
 
-    public CategoryGroup(Context context)
+    public CategoryGroup()
     {
-        this.context = context;
+
     }
 
     @Override
@@ -39,7 +38,7 @@ public class CategoryGroup extends Group
     }
 
     @Override
-    public void setDataToView(ViewHolder viewHolder, View view, final int position)
+    public void setDataToView(final Context context, ViewHolder viewHolder, View view, final int position)
     {
         ImageView imageView = (ImageView) viewHolder.getView(R.id.list_item_image_1);
         ImageUtil.displayImage(imageView, "drawable://" + imageUrl, null);

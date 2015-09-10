@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/related_header_layout_tvTitle"
+        style="@style/TextTitleStyle"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_smaller"
+        android:paddingLeft="@dimen/spacing_mini"/>

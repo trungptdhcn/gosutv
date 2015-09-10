@@ -20,40 +20,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-            <ImageView
-                    android:id="@+id/list_item_card_small_ivImage"
-                    android:layout_width="100dp"
+            <RelativeLayout
+                    android:id="@+id/list_item_card_small_rlImage"
+                    android:layout_width="150dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/dota_2_icon"
-                    android:layout_alignParentLeft="true"
-                    android:scaleType="fitXY"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true">
+                <ImageView
+                        android:id="@+id/list_item_card_small_ivImage"
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/dota_2_icon"
+                        android:layout_alignParentLeft="true"
+                        android:scaleType="fitCenter"
+                        android:layout_centerVertical="true"/>
+                <ImageView
+                        android:id="@+id/list_item_card_small_ivPlayThumbnail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/play_thumbnail"
+                        />
+            </RelativeLayout>
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_toRightOf="@+id/list_item_card_small_ivImage">
+                    android:layout_toRightOf="@+id/list_item_card_small_rlImage">
                 <TextView
                         android:id="@+id/list_item_card_small_tvTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/TextTitleStyle"
                         android:layout_marginBottom="@dimen/spacing_small"
                         android:layout_marginLeft="@dimen/spacing_small"
                         android:layout_marginRight="@dimen/spacing_small"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:text="Eat at Joe"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_mini"
+                        android:textSize="@dimen/text_size_small"
                         />
-                        />
+                />
                 <TextView
                         android:id="@+id/list_item_card_small_tvDes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/TextContentStyle"
                         android:layout_marginBottom="@dimen/spacing_small"
                         android:layout_marginLeft="@dimen/spacing_small"
                         android:layout_marginRight="@dimen/spacing_small"
                         android:text="Eat at Joe"
+                        android:visibility="gone"
                         android:textColor="@color/black_20"
                         android:textSize="@dimen/text_size_mini"
                         />

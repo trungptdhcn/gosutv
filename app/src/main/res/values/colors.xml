@@ -2,6 +2,7 @@
 <resources>
     
     <color name="white">#ffffff</color>
+    <color name="gray">#A9A9A9</color>
     <color name="white_transparent">#8Cffffff</color>
     <color name="white_15_percent">#26ffffff</color>
     <color name="white_30_percent">#4Dffffff</color>

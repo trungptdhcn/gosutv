@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -29,7 +32,7 @@ import java.util.List;
 /**
  * Created by Trung on 8/31/2015.
  */
-public class ListFeedCategoryActivity extends FragmentActivity
+public class ListFeedCategoryActivity extends AppCompatActivity
 {
     private MaterialViewPager mViewPager;
     private int gid;
@@ -47,13 +50,35 @@ public class ListFeedCategoryActivity extends FragmentActivity
             @Override
             public Fragment getItem(int position)
             {
-                return new ListFeedCategoryFragment(gid);
+
+                switch (position)
+                {
+                    case 0:
+                        ListFeedCategoryFragment feedCategoryFragment = new ListFeedCategoryFragment();
+                        Bundle args = new Bundle();
+                        args.putInt(Constants.GID, gid);
+                        feedCategoryFragment.setArguments(args);
+                        return feedCategoryFragment;
+                    case 1:
+                        ListFeedVideoFragment feedVideoFragment = new ListFeedVideoFragment();
+                        Bundle args1 = new Bundle();
+                        args1.putInt(Constants.GID, gid);
+                        feedVideoFragment.setArguments(args1);
+                        return feedVideoFragment;
+                    case 2:
+                        ListFeedPhotoFragment feedPhotoFragment = new ListFeedPhotoFragment();
+                        Bundle args2 = new Bundle();
+                        args2.putInt(Constants.GID, gid);
+                        feedPhotoFragment.setArguments(args2);
+                        return feedPhotoFragment;
+                }
+                return null;
             }
 
             @Override
             public int getCount()
             {
-                return 1;
+                return 3;
             }
 
             @Override
@@ -61,13 +86,30 @@ public class ListFeedCategoryActivity extends FragmentActivity
             {
                 if (gid == 0)
                 {
-                    return Constants.DOTA_2;
+                    switch (position)
+                    {
+                        case 0:
+                            return Constants.TIN;
+                        case 1:
+                            return Constants.VIDEO;
+                        case 2:
+                            return Constants.PHOTO;
+                    }
 
                 }
                 else
                 {
-                    return Constants.LOL;
+                    switch (position)
+                    {
+                        case 0:
+                            return Constants.TIN;
+                        case 1:
+                            return Constants.VIDEO;
+                        case 2:
+                            return Constants.PHOTO;
+                    }
                 }
+                return "";
             }
         });
         switch (gid)
@@ -80,7 +122,7 @@ public class ListFeedCategoryActivity extends FragmentActivity
                     {
                         return HeaderDesign.fromColorResAndUrl(
                                 R.color.main_color_500,
-                                "http:\\/\\/img.gosutv.vn\\/pictures\\/2015\\/09\\/01\\/1441102535_IDaTZ7w4.jpg");
+                                "http://thumb.connect360.vn/unsafe/0x0/img.gosutv.vn/pictures/2015/07/09/1436410972_4WCVkt9Q.jpg");
 
                     }
                 });
@@ -93,7 +135,7 @@ public class ListFeedCategoryActivity extends FragmentActivity
                     {
                         return HeaderDesign.fromColorResAndUrl(
                                 R.color.main_color_500,
-                                "http://img.gosutv.vn/pictures/2015/09/03/1441245106_miggFw3C.jpg");
+                                "http://img.gosutv.vn//pictures//2015//09//08//1441700754_WHEOOV3o.jpg");
 
                     }
                 });
@@ -151,6 +193,17 @@ public class ListFeedCategoryActivity extends FragmentActivity
                 }
             });
         }
+        Toolbar toolbar = mViewPager.getToolbar();
+        if (toolbar != null)
+        {
+            setSupportActionBar(toolbar);
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayUseLogoEnabled(false);
+            actionBar.setHomeButtonEnabled(true);
+        }
     }
 
     @Override
@@ -162,8 +215,14 @@ public class ListFeedCategoryActivity extends FragmentActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        return
-                super.onOptionsItemSelected(item);
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

@@ -21,8 +21,8 @@ public class MyApplication extends Application
     public void onCreate()
     {
         super.onCreate();
-        FontsOverride.setDefaultFont(this, "SERIF", "fonts/newscycle_bold.ttf");
-        FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/newscycle_regular.ttf");
+        FontsOverride.setDefaultFont(this, "SERIF", "fonts/RobotoCondensed-Light.ttf");
+        FontsOverride.setDefaultFont(this, "monospace", "fonts/RobotoCondensed-Regular.ttf");
         initImageLoader(getApplicationContext());
     }
 

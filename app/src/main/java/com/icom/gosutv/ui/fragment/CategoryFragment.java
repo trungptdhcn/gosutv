@@ -33,9 +33,9 @@ public class CategoryFragment extends BaseFragment
     public void setupView()
     {
         List<CategoryGroup> categoryGroups = new ArrayList<>();
-        CategoryGroup categoryDOTA = new CategoryGroup(getActivity());
+        CategoryGroup categoryDOTA = new CategoryGroup();
         categoryDOTA.setImageUrl(R.drawable.dota_2_icon + "");
-        CategoryGroup categoryLOL = new CategoryGroup(getActivity());
+        CategoryGroup categoryLOL = new CategoryGroup();
         categoryLOL.setImageUrl(R.drawable.lol_icon + "");
         categoryGroups.add(categoryDOTA);
         categoryGroups.add(categoryLOL);

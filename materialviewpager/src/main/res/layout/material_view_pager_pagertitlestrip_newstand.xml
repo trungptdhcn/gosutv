@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     app:pstsPaddingMiddle="true"
     app:pstsDividerPadding="20dp"
-    app:pstsIndicatorColor="#FFF"
+    app:pstsIndicatorColor="@color/red"
     app:pstsIndicatorHeight="2dp"
     app:pstsShouldExpand="true"
     app:pstsTabPaddingLeftRight="10dp"

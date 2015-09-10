@@ -11,7 +11,7 @@ public class PhotoFragment extends BaseFragment
     @Override
     public int getLayout()
     {
-        return R.layout.image_fragment;
+        return R.layout.photo_fragment;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.icom.gosutv.ui.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.icom.gosutv.sao.dto.FeedDTO;
+import com.icom.gosutv.sao.dto.PhotoDTO;
 import com.icom.gosutv.sao.dto.RelatedDTO;
 
 import java.util.ArrayList;
@@ -9,7 +12,7 @@ import java.util.List;
 /**
  * Created by Trung on 8/28/2015.
  */
-public class FeedModel
+public class FeedModel implements Parcelable
 {
     private long id;
     private String title;
@@ -18,6 +21,11 @@ public class FeedModel
     private String sapo;
     private String thumb;
     private String slug;
+    private String disPlayType;
+    public FeedModel()
+    {
+
+    }
 
     public String getTitle()
     {
@@ -89,6 +97,15 @@ public class FeedModel
         this.slug = slug;
     }
 
+    public String getDisPlayType()
+    {
+        return disPlayType;
+    }
+
+    public void setDisPlayType(String disPlayType)
+    {
+        this.disPlayType = disPlayType;
+    }
 
     public static List<FeedModel> convertFromFeedDTO(List<FeedDTO> feedDTOs)
     {
@@ -100,6 +117,7 @@ public class FeedModel
         }
         return feedModels;
     }
+
     public static List<FeedModel> convertFromRelatedDTO(List<RelatedDTO> relatedDTOs)
     {
         List<FeedModel> feedModels = new ArrayList<>();
@@ -120,7 +138,28 @@ public class FeedModel
         feedModel.setSapo(feedDTO.getSapo());
         feedModel.setThumb(feedDTO.getThumb());
         feedModel.setSlug(feedDTO.getSlug());
+        feedModel.setDisPlayType(feedDTO.getDisplayType());
         return feedModel;
+    }
+
+    public static FeedModel convertFromDataDTO(PhotoDTO photoDTO)
+    {
+        FeedModel feedModel = new FeedModel();
+        feedModel.setTitle("");
+        feedModel.setSapo(photoDTO.getDescription());
+        feedModel.setThumb(photoDTO.getUrlImage());
+        return feedModel;
+    }
+
+    public static List<FeedModel> convertFromDataDTO(List<PhotoDTO> photoDTOs)
+    {
+        List<FeedModel> feedModels = new ArrayList<>();
+        for (PhotoDTO photoDTO : photoDTOs)
+        {
+            FeedModel feedModel = convertFromDataDTO(photoDTO);
+            feedModels.add(feedModel);
+        }
+        return feedModels;
     }
 
     public static FeedModel convertFromRelatedDTO(RelatedDTO relatedDTO)
@@ -132,4 +171,46 @@ public class FeedModel
         feedModel.setSlug(relatedDTO.getSlug());
         return feedModel;
     }
+
+    public FeedModel(Parcel in)
+    {
+        id = in.readLong();
+        title = in.readString();
+        urlImage = in.readString();
+        content = in.readString();
+        sapo = in.readString();
+        thumb = in.readString();
+        slug = in.readString();
+    }
+
+    @Override
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i)
+    {
+        parcel.writeLong(id);
+        parcel.writeString(title);
+        parcel.writeString(urlImage);
+        parcel.writeString(content);
+        parcel.writeString(sapo);
+        parcel.writeString(thumb);
+        parcel.writeString(slug);
+    }
+
+    public static final Parcelable.Creator<FeedModel> CREATOR = new Parcelable.Creator<FeedModel>()
+    {
+        public FeedModel createFromParcel(Parcel in)
+        {
+            return new FeedModel(in);
+        }
+
+        public FeedModel[] newArray(int size)
+        {
+            return new FeedModel[size];
+        }
+    };
 }

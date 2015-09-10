@@ -13,14 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.*;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.icom.gosutv.base.BaseActivity;
 import com.icom.gosutv.base.BaseFragment;
 import com.icom.gosutv.model.DrawerItem;
 import com.icom.gosutv.ui.adapter.DrawerAdapter;
-import com.icom.gosutv.ui.fragment.CategoryFragment;
-import com.icom.gosutv.ui.fragment.HomeFragment;
-import com.icom.gosutv.ui.fragment.PhotoFragment;
-import com.icom.gosutv.ui.fragment.VideoFragment;
+import com.icom.gosutv.ui.fragment.*;
 import com.icom.gosutv.utils.ImageUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
@@ -37,6 +36,7 @@ public class MainActivity extends BaseActivity
     public static final String LEFT_MENU_OPTION_1 = "Universal Left Menu";
     public static final String LEFT_MENU_OPTION_2 = "Universal 2 Left Menu";
 
+    AdView mAdView;
 //    private ListView mDrawerList;
 //    private List<DrawerItem> mDrawerItems;
 //    private DrawerLayout mDrawerLayout;
@@ -50,7 +50,9 @@ public class MainActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setTitle("Universal");
@@ -106,13 +108,14 @@ public class MainActivity extends BaseActivity
                         icon.setImageDrawable(res.getDrawable(R.drawable.ic_home_white_24dp));
                         break;
                     case 1:
-                        icon.setImageDrawable(res.getDrawable(R.drawable.ic_category));
+                        icon.setImageDrawable(res.getDrawable(R.drawable.view_grid
+                        ));
                         break;
                     case 2:
-                        icon.setImageDrawable(res.getDrawable(R.drawable.ic_video));
+                        icon.setImageDrawable(res.getDrawable(R.drawable.ic_stream));
                         break;
                     case 3:
-                        icon.setImageDrawable(res.getDrawable(R.drawable.ic_image));
+                        icon.setImageDrawable(res.getDrawable(R.drawable.settings));
                         break;
                     default:
                         throw new IllegalStateException("Invalid position: " + position);
@@ -282,5 +285,29 @@ public class MainActivity extends BaseActivity
     {
         super.onConfigurationChanged(newConfig);
 //        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Resume the AdView.
+        mAdView.resume();
+    }
+
+    @Override
+    public void onPause() {
+        // Pause the AdView.
+        mAdView.pause();
+
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        // Destroy the AdView.
+        mAdView.destroy();
+
+        super.onDestroy();
     }
 }

@@ -2,6 +2,7 @@ package com.icom.gosutv.sao;
 
 import com.icom.gosutv.sao.dto.FeedDTO;
 import com.icom.gosutv.sao.dto.FeedDetailDTO;
+import com.icom.gosutv.sao.dto.ListFeedDTO;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
@@ -15,10 +16,10 @@ import java.util.List;
 public interface RestfulServiceIn
 {
     @GET("/latest")
-    public List<FeedDTO> getListFeedsWithParams(@Query("page") Integer page, @Query("limit") Integer limit,
+    public ListFeedDTO getListFeedsWithParams(@Query("page") Integer page, @Query("limit") Integer limit,
                                       @Query("gid") Integer gid, @Query("f") Boolean f);
     @GET("/latest")
-    public  List<FeedDTO> getListFeeds();
+    public  ListFeedDTO getListFeeds();
 
     @GET("/post")
     public FeedDetailDTO getFeedDetail(@Query("slug") String slug);

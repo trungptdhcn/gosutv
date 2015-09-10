@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.icom.gosutv.R;
 import com.icom.gosutv.ui.model.FeedModel;
+import com.icom.gosutv.utils.Constants;
 import com.icom.gosutv.utils.ImageUtil;
 
 import java.util.List;
@@ -44,6 +45,8 @@ public class GoogleCardsTravelAdapter extends ArrayAdapter<FeedModel>
             holder = new ViewHolder();
             holder.image = (ImageView) convertView
                     .findViewById(R.id.list_item_google_cards_travel_image);
+            holder.ivPlayThumbnail = (ImageView) convertView
+                    .findViewById(R.id.list_item_google_cards_travel_ivThumbnail);
             holder.categoryName = (TextView) convertView
                     .findViewById(R.id.list_item_google_cards_travel_category_name);
             holder.tvTitle = (TextView) convertView
@@ -62,6 +65,14 @@ public class GoogleCardsTravelAdapter extends ArrayAdapter<FeedModel>
         }
 
         FeedModel item = getItem(position);
+        if(item.getDisPlayType().equals(Constants.DISPLAY_TYPE_VIDEO))
+        {
+            holder.ivPlayThumbnail.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            holder.ivPlayThumbnail.setVisibility(View.GONE);
+        }
         ImageUtil.displayImage(holder.image, item.getThumb(), null);
         holder.tvTitle.setText(item.getTitle());
         holder.tvSapo.setText(item.getSapo());
@@ -71,6 +82,7 @@ public class GoogleCardsTravelAdapter extends ArrayAdapter<FeedModel>
     private static class ViewHolder
     {
         public ImageView image;
+        public ImageView ivPlayThumbnail;
         public TextView categoryName;
         public TextView tvTitle;
         public TextView tvSapo;

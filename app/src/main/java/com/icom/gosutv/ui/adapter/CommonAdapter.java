@@ -65,7 +65,7 @@ public class CommonAdapter<T extends Group> extends BaseAdapter
         {
             holder = (ViewHolder) convertView.getTag();
         }
-        commonGroup.setDataToView(holder, convertView, position);
+        commonGroup.setDataToView(context, holder, convertView, position);
         return convertView;
     }
 

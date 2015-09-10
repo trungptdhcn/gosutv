@@ -17,6 +17,8 @@ import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.icom.gosutv.R;
 import com.icom.gosutv.base.event.ChangedFragmentEvent;
 import de.greenrobot.event.EventBus;

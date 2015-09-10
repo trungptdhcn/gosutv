@@ -1,8 +1,11 @@
 package com.icom.gosutv.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.support.v4.view.PagerAdapter;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +29,12 @@ public class ViewpagerAdapter extends PagerAdapter
 {
     private List<FeedModel> feedModels = new ArrayList<>();
     private ArrayList<View> views = new ArrayList<View>();
-    private Context context;
+    private Activity activity;
     View rootView;
 
-    public ViewpagerAdapter(Context context, List<FeedModel> feedModels)
+    public ViewpagerAdapter(Activity activity, List<FeedModel> feedModels)
     {
-        this.context = context;
+        this.activity = activity;
         this.feedModels = feedModels;
     }
 
@@ -52,7 +55,7 @@ public class ViewpagerAdapter extends PagerAdapter
     @Override
     public Object instantiateItem(final ViewGroup container, final int position)
     {
-        LayoutInflater inflater = (LayoutInflater) context
+        LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View viewLayout = inflater.inflate(R.layout.pager_hot_feed_item, container, false);
         ImageView imageView = (ImageView) viewLayout.findViewById(R.id.pager_hot_feed_item_ivImage);
@@ -62,7 +65,13 @@ public class ViewpagerAdapter extends PagerAdapter
         {
             tvTitle.setText(feedModels.get(position).getTitle());
         }
-        ImageUtil.displayImage(imageView, feedModels.get(position).getThumb(), null);
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        ImageUtil.displayImageWithSize(imageView, feedModels.get(position).getThumb()
+                , null, width, height);
         rlContainer.setOnClickListener(new View.OnClickListener()
         {
             @Override

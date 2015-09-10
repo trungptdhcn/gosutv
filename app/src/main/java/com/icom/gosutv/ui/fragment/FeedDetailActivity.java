@@ -1,19 +1,28 @@
 package com.icom.gosutv.ui.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.*;
 import android.webkit.WebView;
 import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -23,9 +32,13 @@ import com.icom.gosutv.sao.RestfulService;
 import com.icom.gosutv.sao.dto.FeedDetailDTO;
 import com.icom.gosutv.sao.dto.PhotoDTO;
 import com.icom.gosutv.ui.adapter.CommonAdapter;
+import com.icom.gosutv.ui.adapter.GalleryAdapter;
+import com.icom.gosutv.ui.adapter.ViewpagerAdapter;
 import com.icom.gosutv.ui.customview.VideoControllerView;
 import com.icom.gosutv.ui.group.RelatedGroup;
+import com.icom.gosutv.ui.model.FeedModel;
 import com.icom.gosutv.utils.Constants;
+import com.icom.gosutv.utils.ImageUtil;
 import com.icom.gosutv.utils.StringUtils;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
@@ -35,26 +48,49 @@ import java.util.List;
 /**
  * Created by Trung on 9/1/2015.
  */
-public class FeedDetailActivity extends YouTubeBaseActivity implements SurfaceHolder.Callback, android.media.MediaPlayer.OnPreparedListener
+public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implements SurfaceHolder.Callback, android.media.MediaPlayer.OnPreparedListener
         , VideoControllerView.MediaPlayerControl,
         YouTubePlayer.OnInitializedListener
 {
-    @InjectView(R.id.feed_detail_fragment_tvTitle)
-    TextView tvTitle;
-    @InjectView(R.id.feed_detail_fragment_tvDes)
-    WebView tvDes;
-    @InjectView(R.id.feed_detail_fragment_bar)
-    ProgressWheel progressWheel;
+    @InjectView(R.id.feed_detail_content_fragment_rlContainer)
+    RelativeLayout rlContainer;
     @InjectView(R.id.video_container)
     RelativeLayout rlVideoContainer;
+
+    //    @InjectView(R.id.feed_detail_fragment_tvTitle)
+//    TextView tvTitle;
+    @InjectView(R.id.feed_detail_content_fragment_rlActionbar)
+    RelativeLayout rlActionBar;
+//    @InjectView(R.id.feed_detail_fragment_tvTitleMedia)
+//    TextView tvTitleMedia;
+    @InjectView(R.id.feed_detail_fragment_tvDes)
+    WebView tvDes;
+
+    @InjectView(R.id.feed_detail_content_fragment_progress_bar)
+    ProgressWheel progressWheel;
+
+
     @InjectView(R.id.feed_detail_content_fragment_llRelated)
     LinearLayout llRelated;
     @InjectView(R.id.feed_detail_content_fragment_lvRelated)
     ListView lvRelated;
+
     @InjectView(R.id.feed_detail_content_fragment_view)
     YouTubePlayerView youTubePlayerView;
+
     @InjectView(R.id.videoSurfaceContainer)
     FrameLayout videoOriginalView;
+    @InjectView(R.id.feed_detail_content_fragment_ivThumbnail)
+    ImageView ivThumbnail;
+    @InjectView(R.id.feed_detail_content_fragment_ivPlayer)
+    ImageView ivPlayer;
+
+    @InjectView(R.id.feed_detail_content_fragment_viewpager)
+    ViewPager viewPager;
+    @InjectView(R.id.feed_detail_content_fragment_rlGallery)
+    RelativeLayout rlGallery;
+
+    @InjectView(R.id.videoSurface)
     SurfaceView videoSurface;
     MediaPlayer player;
     VideoControllerView controller;
@@ -63,23 +99,22 @@ public class FeedDetailActivity extends YouTubeBaseActivity implements SurfaceHo
 
     private String slug;
     private static boolean isFullScreen = false;
-    public static String youtubeUrl ="";
+    public static String youtubeUrl = "";
+    FeedDetailDTO feedDTO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed_detail_content_fragment);
-        videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
+//        videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
         ButterKnife.inject(this);
         slug = getIntent().getStringExtra(Constants.SLUG);
-        tvTitle.setTypeface(Typeface.SERIF);
         tvDes.getSettings().setJavaScriptEnabled(true);
         SurfaceHolder videoHolder = videoSurface.getHolder();
         videoHolder.addCallback(FeedDetailActivity.this);
-
-        player = new MediaPlayer();
         controller = new VideoControllerView(FeedDetailActivity.this);
+        player = new MediaPlayer();
         new AsyncTask<String, FeedDetailDTO, FeedDetailDTO>()
         {
             @Override
@@ -92,28 +127,37 @@ public class FeedDetailActivity extends YouTubeBaseActivity implements SurfaceHo
             @Override
             protected FeedDetailDTO doInBackground(String... strings)
             {
-                FeedDetailDTO feedDTO = RestfulService.getInstance().getFeedDetail(slug);
+                feedDTO = RestfulService.getInstance().getFeedDetail(slug);
                 return feedDTO;
             }
-
+//
             @Override
             protected void onPostExecute(FeedDetailDTO feedDTO)
             {
                 super.onPostExecute(feedDTO);
-                progressWheel.setVisibility(View.GONE);
-                tvTitle.setText(feedDTO.getItemDTO().getTitle());
                 if (feedDTO.getItemDTO().getDisplayType().equals(Constants.DISPLAY_TYPE_NEWS))
                 {
+                    rlActionBar.setVisibility(View.VISIBLE);
+//                    tvTitleMedia.setVisibility(View.GONE);
                     tvDes.setVisibility(View.VISIBLE);
                     rlVideoContainer.setVisibility(View.GONE);
                     llRelated.setVisibility(View.GONE);
+                    String title = "<span style=\"font-size:30px;font-weight:bold\">" + feedDTO.getItemDTO().getTitle() + "</span>";
                     tvDes.loadDataWithBaseURL(null
-                            , getHtmlData(feedDTO.getItemDTO().getContent()), "text/html", "UTF-8", null);
+                            , getHtmlData(title + feedDTO.getItemDTO().getContent()), "text/html", "UTF-8", null);
                 }
                 else if (feedDTO.getItemDTO().getDisplayType().equals(Constants.DISPLAY_TYPE_VIDEO))
                 {
+//                    tvTitle.setVisibility(View.GONE);
+                    rlActionBar.setVisibility(View.GONE);
                     tvDes.setVisibility(View.GONE);
+//                    tvTitleMedia.setVisibility(View.VISIBLE);
+//                    tvTitleMedia.setText(feedDTO.getItemDTO().getTitle());
                     llRelated.setVisibility(View.VISIBLE);
+                    View relatedHeader = getLayoutInflater().inflate(R.layout.related_header_layout, lvRelated, false);
+                    TextView tvTitleMediaHeader = (TextView) relatedHeader.findViewById(R.id.related_header_layout_tvTitle);
+                    tvTitleMediaHeader.setText(feedDTO.getItemDTO().getTitle());
+                    lvRelated.addHeaderView(relatedHeader);
                     rlVideoContainer.setVisibility(View.VISIBLE);
                     try
                     {
@@ -123,6 +167,7 @@ public class FeedDetailActivity extends YouTubeBaseActivity implements SurfaceHo
                             PhotoDTO photoDTO = photoDTOs.get(0);
                             if (photoDTO.getSrcType().equals(Constants.SCR_TYPE_VIDEO_CONNECT360))
                             {
+                                rlGallery.setVisibility(View.GONE);
                                 videoOriginalView.setVisibility(View.VISIBLE);
                                 youTubePlayerView.setVisibility(View.GONE);
                                 player.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -136,6 +181,7 @@ public class FeedDetailActivity extends YouTubeBaseActivity implements SurfaceHo
                             }
                             else if (photoDTO.getSrcType().equals(Constants.SCR_TYPE_VIDEO_YOUTUBE))
                             {
+                                rlGallery.setVisibility(View.GONE);
                                 videoOriginalView.setVisibility(View.GONE);
                                 youTubePlayerView.setVisibility(View.VISIBLE);
                                 youTubePlayerView.initialize(Constants.DEVELOPER_KEY, FeedDetailActivity.this);
@@ -165,10 +211,38 @@ public class FeedDetailActivity extends YouTubeBaseActivity implements SurfaceHo
                 }
                 else
                 {
-
+//                    tvTitle.setVisibility(View.GONE);
+                    rlActionBar.setVisibility(View.GONE);
+                    tvDes.setVisibility(View.GONE);
+//                    tvTitleMedia.setVisibility(View.VISIBLE);
+//                    tvTitleMedia.setText(feedDTO.getItemDTO().getTitle());
+                    llRelated.setVisibility(View.VISIBLE);
+                    View relatedHeader = getLayoutInflater().inflate(R.layout.related_header_layout, lvRelated, false);
+                    TextView tvTitleMediaHeader = (TextView) relatedHeader.findViewById(R.id.related_header_layout_tvTitle);
+                    tvTitleMediaHeader.setText(feedDTO.getItemDTO().getTitle());
+                    lvRelated.addHeaderView(relatedHeader);
+                    rlVideoContainer.setVisibility(View.VISIBLE);
+                    videoOriginalView.setVisibility(View.GONE);
+                    youTubePlayerView.setVisibility(View.GONE);
+                    rlGallery.setVisibility(View.VISIBLE);
+                    final List<FeedModel> feedModels = FeedModel.convertFromDataDTO(feedDTO.getItemDTO().getPhotoDTOs());
+                    GalleryAdapter adapter = new GalleryAdapter(FeedDetailActivity.this, feedModels);
+                    viewPager.setAdapter(adapter);
+                    final List<RelatedGroup> relatedGroups = RelatedGroup.convertFromRelatedDTO(feedDTO.getRelatedDTOs());
+                    CommonAdapter relatedAdapter = new CommonAdapter(FeedDetailActivity.this, relatedGroups);
+                    lvRelated.setAdapter(relatedAdapter);
                 }
+                progressWheel.setVisibility(View.GONE);
             }
         }.execute();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        player.seekTo(getCurrentPosition());
+        player.start();
     }
 
     private void setYoutubeUrl(String url)
@@ -210,7 +284,18 @@ public class FeedDetailActivity extends YouTubeBaseActivity implements SurfaceHo
     {
         controller.setMediaPlayer(this);
         controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
-        player.start();
+        ImageUtil.displayImage(ivThumbnail, feedDTO.getItemDTO().getThumb(), null);
+        ivPlayer.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                ivPlayer.setVisibility(View.GONE);
+                ivThumbnail.setVisibility(View.GONE);
+                player.start();
+            }
+        });
+
     }
     // End MediaPlayer.OnPreparedListener
 
@@ -296,8 +381,6 @@ public class FeedDetailActivity extends YouTubeBaseActivity implements SurfaceHo
         }
         controller.updateFullScreen();
     }
-    // End VideoMediaController.MediaPlayerControl
-
 
     private String getHtmlData(String bodyHTML)
     {
@@ -305,11 +388,11 @@ public class FeedDetailActivity extends YouTubeBaseActivity implements SurfaceHo
                 "iframe{max-width: 100%; width:100%; height: auto;}" +
                 "@font-face {\n" +
                 "    font-family: MyFont;\n" +
-                "    src: url(\"file:///android_asset/fonts/newscycle_regular.ttf\")\n" +
+                "    src: url(\"file:///android_asset/fonts/RobotoCondensed-Light.ttf\")\n" +
                 "}\n" +
                 "body {\n" +
                 "    font-family: MyFont;\n" +
-                "    font-size: medium;\n" +
+                "    font-size: large;\n" +
                 "    text-align: justify;\n" +
                 "}</style></head>";
         return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
@@ -325,35 +408,21 @@ public class FeedDetailActivity extends YouTubeBaseActivity implements SurfaceHo
         }
     }
 
-    @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                        YouTubeInitializationResult errorReason)
+    @OnClick(R.id.feed_detail_content_fragment_ivBack)
+    public void onBackPress()
     {
-        if (errorReason.isUserRecoverableError())
-        {
-            errorReason.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
-        }
-        else
-        {
-//            String errorMessage = String.format(getString(R.string.error_player), errorReason.toString());
-//            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-        }
+        onBackPressed();
+    }
+    //
+    @Override
+    protected YouTubePlayer.Provider getYouTubePlayerProvider()
+    {
+        return youTubePlayerView;
     }
 
-//    @Override
-//    protected YouTubePlayer.Provider getYouTubePlayerProvider()
+//    protected void onSaveInstanceState(Bundle out)
 //    {
-//        return (YouTubePlayerView) findViewById(R.id.feed_detail_content_fragment_view);
+//        super.onSaveInstanceState(out);
+//        out.putInt("Test", player.getCurrentPosition());
 //    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == RECOVERY_DIALOG_REQUEST)
-        {
-            // Retry initialization if user performed a recovery action
-//            getYouTubePlayerProvider().initialize(DeveloperKey.DEVELOPER_KEY, this);
-        }
-    }
 }

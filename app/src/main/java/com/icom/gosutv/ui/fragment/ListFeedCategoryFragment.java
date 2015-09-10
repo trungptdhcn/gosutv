@@ -29,8 +29,10 @@ import com.icom.gosutv.ui.adapter.TestRecyclerViewAdapter;
 import com.icom.gosutv.ui.adapter.ViewpagerAdapter;
 import com.icom.gosutv.ui.event.AddCoverActivityEvent;
 import com.icom.gosutv.ui.model.FeedModel;
+import com.icom.gosutv.utils.Constants;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import de.greenrobot.event.EventBus;
 
 import java.util.ArrayList;
@@ -46,14 +48,11 @@ public class ListFeedCategoryFragment extends BaseFragment
 {
     @InjectView(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    @InjectView(R.id.fragment_recyclerview_bar)
+    ProgressWheel progressWheel;
+
     private RecyclerView.Adapter mAdapter;
     private int gid;
-
-    @SuppressLint("ValidFragment")
-    public ListFeedCategoryFragment(int gid)
-    {
-        this.gid = gid;
-    }
 
     @Override
     public int getLayout()
@@ -67,6 +66,7 @@ public class ListFeedCategoryFragment extends BaseFragment
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
+        gid = getArguments().getInt(Constants.GID,-1);
 //        mAdapter = new RecyclerViewMaterialAdapter(new TestRecyclerViewAdapter(mContentItems));
         new AsyncTask<String, List<FeedDTO>, List<FeedDTO>>()
         {
@@ -74,6 +74,7 @@ public class ListFeedCategoryFragment extends BaseFragment
             protected void onPreExecute()
             {
                 super.onPreExecute();
+                progressWheel.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -82,11 +83,11 @@ public class ListFeedCategoryFragment extends BaseFragment
                 List<FeedDTO> storyDTOs;
                 if (gid == 0)
                 {
-                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, null, 4, null);
+                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, 30, 4, null).getFeedDTOs();
                 }
                 else
                 {
-                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, null, 3, null);
+                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, 30, 3, null).getFeedDTOs();
                 }
                 return storyDTOs;
             }
@@ -95,21 +96,21 @@ public class ListFeedCategoryFragment extends BaseFragment
             protected void onPostExecute(final List<FeedDTO> feedDTOs)
             {
                 super.onPostExecute(feedDTOs);
+                progressWheel.setVisibility(View.GONE);
                 List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(feedDTOs);
-                CommonRecycleViewAdapter adapter = new CommonRecycleViewAdapter(feedModels,false);
+                List<FeedModel> feedModelNews = new ArrayList<FeedModel>();
+                for (FeedModel feedModel : feedModels)
+                {
+                    if (feedModel.getDisPlayType().equals(Constants.DISPLAY_TYPE_NEWS))
+                    {
+                        feedModelNews.add(feedModel);
+                    }
+                }
+                CommonRecycleViewAdapter adapter = new CommonRecycleViewAdapter(getActivity(), feedModelNews, false);
                 mAdapter = new RecyclerViewMaterialAdapter(adapter);
                 mRecyclerView.setAdapter(mAdapter);
-//                EventBus.getDefault().post(new AddCoverActivityEvent(feedDTOs.get(0).getThumb()));
             }
         }.execute();
-//        mRecyclerView.setAdapter(mAdapter);
-//        {
-//            for (int i = 0; i < ITEM_COUNT; ++i)
-//            {
-//                mContentItems.add(new Object());
-//            }
-//            mAdapter.notifyDataSetChanged();
-//        }
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
 }

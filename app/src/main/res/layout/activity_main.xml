@@ -1,18 +1,15 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
-    <include layout="@layout/status_bar"/>
-    <!--<android.support.v4.widget.DrawerLayout-->
-            <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-            <!--android:id="@+id/drawer_layout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <include layout="@layout/status_bar"/>
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
             <!--<include layout="@layout/toolbar"/>-->
             <FrameLayout
                     android:id="@+id/tab"
@@ -33,11 +30,14 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/tab"
                     />
+            <com.google.android.gms.ads.AdView
+                    android:id="@+id/adView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="@string/banner_ad_unit_id"
+                    android:layout_below="@+id/tab"
+                    android:layout_centerHorizontal="true">
+            </com.google.android.gms.ads.AdView>
         </RelativeLayout>
-        <include
-                android:layout_width="@dimen/drawer_width"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                layout="@layout/list_view"/>
-    <!--</android.support.v4.widget.DrawerLayout>-->
-</LinearLayout>
+    </LinearLayout>

@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
            xmlns:app="http://schemas.android.com/apk/res"
            xmlns:tools="http://schemas.android.com/tools"
-           >
+        >
 
     <!-- Default application theme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -12,7 +12,7 @@
     </style>
 
     <!-- Base application theme. -->
-    <style name="AppTheme.NoActionBar"  parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:typeface">serif</item>
         <item name="actionBarStyle">@style/ActionBarStyle</item>
         <item name="colorPrimary">@color/main_color_500</item>
@@ -41,19 +41,19 @@
         <item name="android:dividerHeight">0dp</item>
     </style>
 
-     <!--Ripple related styles -->
+    <!--Ripple related styles -->
     <!--<style name="RippleStyle">-->
-        <!--<item name="rippleOverlay">true</item>-->
-        <!--<item name="rippleColor">@color/main_color_grey_300</item>-->
-        <!--<item name="rippleAlpha">0.7</item>-->
-        <!--<item name="rippleDimension">45dp</item>-->
-        <!--<item name="rippleHover">true</item>-->
-        <!--<item name="rippleDuration">200</item>-->
-        <!--<item name="rippleFadeDuration">50</item>-->
-        <!--<item name="rippleBackground">@android:color/transparent</item>-->
-        <!--<item name="rippleDelayClick">true</item>-->
-        <!--<item name="ripplePersistent">false</item>-->
-        <!--<item name="rippleInAdapter">false</item>-->
+    <!--<item name="rippleOverlay">true</item>-->
+    <!--<item name="rippleColor">@color/main_color_grey_300</item>-->
+    <!--<item name="rippleAlpha">0.7</item>-->
+    <!--<item name="rippleDimension">45dp</item>-->
+    <!--<item name="rippleHover">true</item>-->
+    <!--<item name="rippleDuration">200</item>-->
+    <!--<item name="rippleFadeDuration">50</item>-->
+    <!--<item name="rippleBackground">@android:color/transparent</item>-->
+    <!--<item name="rippleDelayClick">true</item>-->
+    <!--<item name="ripplePersistent">false</item>-->
+    <!--<item name="rippleInAdapter">false</item>-->
     <!--</style>-->
 
     <style name="ImageViewStyle">
@@ -100,6 +100,19 @@
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@color/drawerArrowColor</item>
+    </style>
+
+    <!--===================================Style Text================================-->
+    <style name="TextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="TextTitleStyle" parent="TextStyle">
+        <item name="android:typeface">serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextContentStyle" parent="TextStyle">
+        <item name="android:typeface">serif</item>
     </style>
 
 </resources>

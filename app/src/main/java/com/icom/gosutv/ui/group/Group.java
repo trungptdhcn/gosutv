@@ -9,11 +9,12 @@ import android.view.View;
 public abstract class Group
 {
     private Context context;
+
     public abstract int getLayout();
 
     public abstract void findById(ViewHolder viewHolder, View view);
 
-    public abstract void setDataToView(ViewHolder viewHolder, View view,int position);
+    public abstract void setDataToView(Context context, ViewHolder viewHolder, View view, int position);
 
     public Context getContext()
     {
