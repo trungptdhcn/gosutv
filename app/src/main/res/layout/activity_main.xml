@@ -37,7 +37,8 @@
                     ads:adSize="BANNER"
                     ads:adUnitId="@string/banner_ad_unit_id"
                     android:layout_below="@+id/tab"
-                    android:layout_centerHorizontal="true">
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone">
             </com.google.android.gms.ads.AdView>
         </RelativeLayout>
     </LinearLayout>

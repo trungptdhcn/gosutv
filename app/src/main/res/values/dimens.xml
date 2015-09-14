@@ -6,6 +6,7 @@
 
     <!--=========================Textsize===================-->
     <dimen name="text_size_mini">10dp</dimen>
+    <dimen name="text_size_minier">12dp</dimen>
     <dimen name="text_size_small">16dp</dimen>
     <dimen name="text_size_smaller">20dp</dimen>
     <dimen name="text_size_normal">24dp</dimen>
@@ -22,4 +23,12 @@
     <dimen name="toolbarElevation">4dp</dimen>
     <dimen name="appBarTopMargin">0dp</dimen>
     <dimen name="statusBarHeight">0dp</dimen>
+
+    <!--====================================================toggeg-->
+    <dimen name="settings_toggle_width">44dp</dimen>
+    <dimen name="settings_toggle_height">22dp</dimen>
+    <dimen name="settings_toggle_circle_diameter">22dp</dimen>
+    <dimen name="settings_toggle_circle_radius">11dp</dimen>
+    <dimen name="search_bar_height">48dp</dimen>
+
 </resources>

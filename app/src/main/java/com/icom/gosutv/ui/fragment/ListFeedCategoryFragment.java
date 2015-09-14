@@ -30,6 +30,7 @@ import com.icom.gosutv.ui.adapter.ViewpagerAdapter;
 import com.icom.gosutv.ui.event.AddCoverActivityEvent;
 import com.icom.gosutv.ui.model.FeedModel;
 import com.icom.gosutv.utils.Constants;
+import com.melnykov.fab.FloatingActionButton;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -51,6 +52,9 @@ public class ListFeedCategoryFragment extends BaseFragment
     @InjectView(R.id.fragment_recyclerview_bar)
     ProgressWheel progressWheel;
 
+    @InjectView(R.id.fragment_recyclerview_fab)
+    FloatingActionButton floatingActionButton;
+
     private RecyclerView.Adapter mAdapter;
     private int gid;
 
@@ -67,6 +71,10 @@ public class ListFeedCategoryFragment extends BaseFragment
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         gid = getArguments().getInt(Constants.GID,-1);
+        floatingActionButton.attachToRecyclerView(mRecyclerView);
+        floatingActionButton.setColorNormal(getResources().getColor(R.color.main_color_500));
+        floatingActionButton.setColorPressed(getResources().getColor(R.color.material_light_yellow_800));
+        floatingActionButton.setColorRipple(getResources().getColor(R.color.material_yellow_50));
 //        mAdapter = new RecyclerViewMaterialAdapter(new TestRecyclerViewAdapter(mContentItems));
         new AsyncTask<String, List<FeedDTO>, List<FeedDTO>>()
         {

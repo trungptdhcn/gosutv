@@ -1,7 +1,9 @@
 package com.icom.gosutv.ui.fragment;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -44,6 +46,7 @@ import com.nineoldandroids.view.ViewHelper;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import me.relex.circleindicator.CircleIndicator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -118,7 +121,23 @@ public class HomeFragment extends BaseFragment
             @Override
             protected List<FeedDTO> doInBackground(String... strings)
             {
-                List<FeedDTO> storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, 30, null, null).getFeedDTOs();
+                List<FeedDTO> storyDTOs = new ArrayList<FeedDTO>();
+                SharedPreferences sp = getActivity().getSharedPreferences(getActivity().getString(R.string.preferences_key), Context.MODE_PRIVATE);
+                boolean isDota = sp.getBoolean("Dota", false);
+                boolean isLol = sp.getBoolean("Lol", false);
+                boolean isSetupFilter = sp.getBoolean("setupFilter", false);
+                if(isDota && !isLol && isSetupFilter)
+                {
+                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, 30, 4, null).getFeedDTOs();
+                }
+                else if(!isDota && isLol && isSetupFilter)
+                {
+                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, 30, 3, null).getFeedDTOs();
+                }
+                else
+                {
+                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, 30, null, null).getFeedDTOs();
+                }
                 return storyDTOs;
             }
 
@@ -132,6 +151,7 @@ public class HomeFragment extends BaseFragment
                 final CircleIndicator circleIndicator = (CircleIndicator) view.findViewById(R.id.home_fragment_indicator_default);
                 final ViewpagerAdapter pagerAdapter = new ViewpagerAdapter(HomeFragment.this.getActivity(), feedModels.subList(0, 5));
                 viewPager.setAdapter(pagerAdapter);
+                circleIndicator.setViewPager(viewPager);
                 final Handler handler = new Handler();
                 final int[] currentPage = {0};
                 final Runnable Update = new Runnable()
@@ -175,14 +195,15 @@ public class HomeFragment extends BaseFragment
                         return false;
                     }
                 });
+                view.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 700));
+
                 listView.addHeaderView(view);
-                Display display = getActivity().getWindowManager().getDefaultDisplay();
-                Point size = new Point();
-                display.getSize(size);
-                int height = size.y;
-                AbsListView.LayoutParams headerViewParams = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height / 3);
-                view.setLayoutParams(headerViewParams);
-                circleIndicator.setViewPager(viewPager);
+//                Display display = getActivity().getWindowManager().getDefaultDisplay();
+//                Point size = new Point();
+//                display.getSize(size);
+//                int height = size.y;
+//                AbsListView.LayoutParams headerViewParams = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height / 3);
+//                view.setLayoutParams(headerViewParams);
                 mGoogleCardsAdapter = new GoogleCardsTravelAdapter(getActivity(),
                         feedModels);
                 SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(
@@ -191,17 +212,17 @@ public class HomeFragment extends BaseFragment
                 assert swingBottomInAnimationAdapter.getViewAnimator() != null;
                 swingBottomInAnimationAdapter.getViewAnimator().setInitialDelayMillis(
                         INITIAL_DELAY_MILLIS);
-                listView.setClipToPadding(false);
-                listView.setDivider(null);
-                Resources r = getResources();
-                int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                        8, r.getDisplayMetrics());
-                listView.setDividerHeight(px);
-                listView.setFadingEdgeLength(0);
-                listView.setFitsSystemWindows(true);
-                px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12,
-                        r.getDisplayMetrics());
-                listView.setScrollBarStyle(ListView.SCROLLBARS_OUTSIDE_OVERLAY);
+//                listView.setClipToPadding(false);
+//                listView.setDivider(null);
+//                Resources r = getResources();
+//                int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+//                        8, r.getDisplayMetrics());
+//                listView.setDividerHeight(px);
+//                listView.setFadingEdgeLength(0);
+//                listView.setFitsSystemWindows(true);
+//                px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12,
+//                        r.getDisplayMetrics());
+//                listView.setScrollBarStyle(ListView.SCROLLBARS_OUTSIDE_OVERLAY);
                 listView.setAdapter(swingBottomInAnimationAdapter);
                 progress.stopSpinning();
                 progress.setVisibility(View.GONE);

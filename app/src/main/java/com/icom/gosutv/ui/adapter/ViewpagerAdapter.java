@@ -57,7 +57,8 @@ public class ViewpagerAdapter extends PagerAdapter
     {
         LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View viewLayout = inflater.inflate(R.layout.pager_hot_feed_item, container, false);
+//        final View viewLayout = inflater.inflate(R.layout.pager_hot_feed_item, container, false);
+        final View viewLayout = inflater.inflate(R.layout.pager_hot_feed_item,null);
         ImageView imageView = (ImageView) viewLayout.findViewById(R.id.pager_hot_feed_item_ivImage);
         RelativeLayout rlContainer = (RelativeLayout) viewLayout.findViewById(R.id.pager_hot_feed_item_rlContainer);
         TextView tvTitle = (TextView) viewLayout.findViewById(R.id.pager_hot_feed_item__tvTitle);
@@ -70,8 +71,9 @@ public class ViewpagerAdapter extends PagerAdapter
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-        ImageUtil.displayImageWithSize(imageView, feedModels.get(position).getThumb()
-                , null, width, height);
+//        ImageUtil.displayImageWithSize(imageView, feedModels.get(position).getThumb()
+//                , null, width, height/3);
+        ImageUtil.displayImage(imageView, feedModels.get(position).getThumb(),null);
         rlContainer.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -83,6 +85,7 @@ public class ViewpagerAdapter extends PagerAdapter
                 view.getContext().startActivity(intent);
             }
         });
+
         container.addView(viewLayout);
         return viewLayout;
     }

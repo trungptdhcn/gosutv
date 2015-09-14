@@ -22,7 +22,7 @@ public class MyApplication extends Application
     {
         super.onCreate();
         FontsOverride.setDefaultFont(this, "SERIF", "fonts/RobotoCondensed-Light.ttf");
-        FontsOverride.setDefaultFont(this, "monospace", "fonts/RobotoCondensed-Regular.ttf");
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/RobotoCondensed-Bold.ttf");
         initImageLoader(getApplicationContext());
     }
 

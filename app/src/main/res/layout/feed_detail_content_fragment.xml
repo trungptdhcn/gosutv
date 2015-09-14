@@ -62,6 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:visibility="gone"
                 >
             <android.support.v4.view.ViewPager
                     android:id="@+id/feed_detail_content_fragment_viewpager"
@@ -102,9 +103,10 @@
     <RelativeLayout
             android:id="@+id/feed_detail_content_fragment_rlActionbar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             android:minHeight="@dimen/spacing_big_size"
             android:layout_alignParentTop="true"
+            android:background="@color/main_color_500"
             >
         <ImageView
                 android:id="@+id/feed_detail_content_fragment_ivBack"
@@ -112,6 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/spacing_normal"
                 android:src="@drawable/bt_back"
                 />
     </RelativeLayout>

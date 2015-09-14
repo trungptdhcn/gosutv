@@ -44,4 +44,11 @@
         <attr name="linear_layout_ratio" format="float" />
     </declare-styleable>
 
+    <!--============================Toggle button=====================-->
+        <declare-styleable name="SettingsToggle">
+            <!--<attr name="textColor" format="string" />-->
+            <attr name="prefName" format="string" />
+            <attr name="oval_background_off" format="string" />
+            <attr name="oval_background_on" format="string" />
+        </declare-styleable>
 </resources>

@@ -10,7 +10,6 @@
             android:id="@+id/pager_hot_feed_item_ivImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/test"
             android:layout_alignParentBottom="true"
             android:scaleType="centerCrop"
             />
@@ -19,9 +18,9 @@
             style="@style/TextTitleStyle"
             android:layout_marginTop="@dimen/spacing_small"
             android:paddingRight="@dimen/spacing_small"
-            android:paddingLeft="@dimen/spacing_small"
+            android:padding="10dp"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_normal"
             android:background="@color/black_transparent"
             android:layout_alignParentBottom="true"/>
 </RelativeLayout>

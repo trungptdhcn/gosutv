@@ -22,6 +22,9 @@ public class FeedModel implements Parcelable
     private String thumb;
     private String slug;
     private String disPlayType;
+    private String status;
+    private String author;
+    private String view;
     public FeedModel()
     {
 
@@ -139,6 +142,9 @@ public class FeedModel implements Parcelable
         feedModel.setThumb(feedDTO.getThumb());
         feedModel.setSlug(feedDTO.getSlug());
         feedModel.setDisPlayType(feedDTO.getDisplayType());
+        feedModel.setStatus(feedDTO.getStatus());
+        feedModel.setAuthor(feedDTO.getAuthor());
+        feedModel.setView(feedDTO.getView());
         return feedModel;
     }
 
@@ -213,4 +219,34 @@ public class FeedModel implements Parcelable
             return new FeedModel[size];
         }
     };
+
+    public String getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(String status)
+    {
+        this.status = status;
+    }
+
+    public String getAuthor()
+    {
+        return author;
+    }
+
+    public void setAuthor(String author)
+    {
+        this.author = author;
+    }
+
+    public String getView()
+    {
+        return view;
+    }
+
+    public void setView(String view)
+    {
+        this.view = view;
+    }
 }

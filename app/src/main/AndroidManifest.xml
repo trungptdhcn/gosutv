@@ -12,13 +12,13 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/dota_2_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:largeHeap="true">
+        android:largeHeap="true"
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".SplashScreen"
             android:configChanges="orientation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,44 +28,51 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".ui.fragment.ListFeedCategoryActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
-            android:theme="@style/TestThem"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/TestThem" >
         </activity>
         <activity
             android:name=".ui.fragment.FeedDetailActivity"
             android:label="@string/app_name"
-            android:theme="@style/TestThem"
             android:screenOrientation="portrait"
-            >
+            android:theme="@style/TestThem" >
         </activity>
         <activity
             android:name=".ui.fragment.VideoDetailActivity"
             android:label="@string/title_activity_video_detail"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.fragment.SilderActivity"
             android:label="@string/title_activity_gallery"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-                android:name=".ui.fragment.FeedContentDetailActivity"
-                android:label="@string/title_activity_gallery"
-                android:theme="@style/TestThem"
-                android:screenOrientation="portrait">
+            android:name=".ui.fragment.FeedContentDetailActivity"
+            android:label="@string/title_activity_gallery"
+            android:screenOrientation="portrait"
+            android:theme="@style/TestThem" >
         </activity>
-        <meta-data android:name="com.google.android.gms.version"
-                   android:value="@integer/google_play_services_version" />
-        <activity android:name="com.google.android.gms.ads.AdActivity"
-                  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-                  android:theme="@android:style/Theme.Translucent" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".ui.fragment.FilterFeedSettingActivity"
+            android:label="@string/title_activity_filter_feed_setting" >
+        </activity>
     </application>
 
 </manifest>

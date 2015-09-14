@@ -30,7 +30,9 @@
     <string name="title_activity_video_detail">VideoDetailActivity</string>
     <string name="related">Bài viết liên quan</string>
     <string name="title_activity_gallery">GalleryActivity</string>
-
     <string name="banner_ad_unit_id">ca-app-pub-8141935988853845/9518964013</string>
+    <!-- =================================Toggle Button============================= -->
+    <string name="preferences_key">com.gisinc.androidexamples.androidtogglebutton</string>
+    <string name="title_activity_filter_feed_setting">FilterFeedSettingActivity</string>
 
 </resources>

@@ -36,10 +36,12 @@
 
             <ListView
                     xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:id="@+id/home_fragment_list_view"
-                      style="@style/ListViewStyle"
-                      android:layout_below="@+id/home_fragment_rlPagerContainer"
-                      android:layout_weight="1"/>
+                    android:id="@+id/home_fragment_list_view"
+                    style="@style/ListViewStyle"
+                    android:background="#EEEEEE"
+                    android:layout_below="@+id/home_fragment_rlPagerContainer"
+                    android:dividerHeight="@dimen/spacing_mini"
+                    />
             <com.melnykov.fab.FloatingActionButton
                     android:id="@+id/fab"
                     android:layout_width="wrap_content"

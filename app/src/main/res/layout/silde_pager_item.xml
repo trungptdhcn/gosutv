@@ -15,13 +15,11 @@
                 android:id="@+id/silde_pager_item_ivImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 />
         <TextView
                 android:id="@+id/slide_pager_item_tvDes"
                 style="@style/TextContentStyle"
                 android:layout_alignParentBottom="true"
                 />
-
     </RelativeLayout>
 </RelativeLayout>

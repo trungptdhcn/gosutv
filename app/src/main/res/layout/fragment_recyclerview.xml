@@ -5,11 +5,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+    <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/fragment_recyclerview_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="16dp"
+                android:src="@drawable/arrow_up"
+                />
+    </FrameLayout>
     <com.pnikosis.materialishprogress.ProgressWheel
             android:id="@+id/fragment_recyclerview_bar"
             android:layout_width="match_parent"

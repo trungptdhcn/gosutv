@@ -110,6 +110,8 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
             case TYPE_CELL:
                 ((FeedViewHolder) holder).tvTitle.setText(feedModels.get(position).getTitle());
                 ((FeedViewHolder) holder).tvDes.setText(feedModels.get(position).getSapo());
+                ((FeedViewHolder) holder).tvAuthor.setText(feedModels.get(position).getAuthor());
+                ((FeedViewHolder) holder).tvView.setText(feedModels.get(position).getView());
 //                ImageUtil.displayImageWithSize(((FeedViewHolder) holder).ivImage, feedModels.get(position).getThumb()
 //                        , null, width / 3, width/4);
                 ImageUtil.displayImage(((FeedViewHolder) holder).ivImage, feedModels.get(position).getThumb()
@@ -162,6 +164,8 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
         ImageView ivThumbnailPlay;
         TextView tvTitle;
         TextView tvDes;
+        TextView tvAuthor;
+        TextView tvView;
         CardView cardView;
 
         FeedViewHolder(View itemView)
@@ -172,6 +176,8 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
             tvTitle = (TextView) itemView.findViewById(R.id.list_item_card_small_tvTitle);
             tvDes = (TextView) itemView.findViewById(R.id.list_item_card_small_tvDes);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
+            tvAuthor = (TextView) itemView.findViewById(R.id.list_item_google_cards_travel_tvAuthor);
+            tvView = (TextView) itemView.findViewById(R.id.list_item_google_cards_travel_tvView);
             itemView.setOnClickListener(this);
         }
 
@@ -187,6 +193,8 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
         ImageView ivImage;
         TextView tvTitle;
         TextView tvDes;
+        TextView tvAuthor;
+        TextView tvView;
         CardView cardView;
 
         FeedHotViewHolder(View itemView)

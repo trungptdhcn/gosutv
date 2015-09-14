@@ -167,6 +167,9 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
                             PhotoDTO photoDTO = photoDTOs.get(0);
                             if (photoDTO.getSrcType().equals(Constants.SCR_TYPE_VIDEO_CONNECT360))
                             {
+                                ivPlayer.setVisibility(View.VISIBLE);
+                                ivThumbnail.setVisibility(View.VISIBLE);
+                                ImageUtil.displayImage(ivThumbnail, feedDTO.getItemDTO().getThumb(), null);
                                 rlGallery.setVisibility(View.GONE);
                                 videoOriginalView.setVisibility(View.VISIBLE);
                                 youTubePlayerView.setVisibility(View.GONE);
@@ -284,7 +287,6 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
     {
         controller.setMediaPlayer(this);
         controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
-        ImageUtil.displayImage(ivThumbnail, feedDTO.getItemDTO().getThumb(), null);
         ivPlayer.setOnClickListener(new View.OnClickListener()
         {
             @Override

@@ -3,31 +3,19 @@ package com.icom.gosutv;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.*;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.icom.gosutv.base.BaseActivity;
 import com.icom.gosutv.base.BaseFragment;
-import com.icom.gosutv.model.DrawerItem;
-import com.icom.gosutv.ui.adapter.DrawerAdapter;
 import com.icom.gosutv.ui.fragment.*;
-import com.icom.gosutv.utils.ImageUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends BaseActivity
 {
@@ -126,8 +114,8 @@ public class MainActivity extends BaseActivity
         FragmentPagerItems pages = new FragmentPagerItems(this);
         pages.add(FragmentPagerItem.of("HOME", HomeFragment.class));
         pages.add(FragmentPagerItem.of("CATEGORY", CategoryFragment.class));
-        pages.add(FragmentPagerItem.of("VIDEO", VideoFragment.class));
         pages.add(FragmentPagerItem.of("PHOTO", PhotoFragment.class));
+        pages.add(FragmentPagerItem.of("VIDEO", SettingFragment.class));
 
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(

@@ -44,6 +44,7 @@ public class ListFeedCategoryActivity extends AppCompatActivity
         setContentView(R.layout.feed_activity);
         gid = getIntent().getIntExtra(Constants.GID, -1);
         mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
+        findViewById(R.id.materialviewpager_imageHeader).setAlpha(1);
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager())
         {
 
@@ -121,7 +122,7 @@ public class ListFeedCategoryActivity extends AppCompatActivity
                     public HeaderDesign getHeaderDesign(int page)
                     {
                         return HeaderDesign.fromColorResAndUrl(
-                                R.color.main_color_500,
+                                android.R.color.transparent,
                                 "http://thumb.connect360.vn/unsafe/0x0/img.gosutv.vn/pictures/2015/07/09/1436410972_4WCVkt9Q.jpg");
 
                     }
@@ -134,7 +135,7 @@ public class ListFeedCategoryActivity extends AppCompatActivity
                     public HeaderDesign getHeaderDesign(int page)
                     {
                         return HeaderDesign.fromColorResAndUrl(
-                                R.color.main_color_500,
+                                android.R.color.transparent,
                                 "http://img.gosutv.vn//pictures//2015//09//08//1441700754_WHEOOV3o.jpg");
 
                     }
