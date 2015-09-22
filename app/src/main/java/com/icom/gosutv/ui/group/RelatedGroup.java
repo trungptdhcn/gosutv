@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.support.v7.widget.CardView;
+import android.text.Html;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +28,8 @@ public class RelatedGroup extends Group
     private String description;
     private String imageUrl;
     private String slug;
+    private String author;
+    private String views;
     private Context context;
 
     public RelatedGroup()
@@ -50,10 +53,14 @@ public class RelatedGroup extends Group
         ImageView imageView = (ImageView) view.findViewById(R.id.list_item_card_small_ivImage);
         TextView tvTitle = (TextView) view.findViewById(R.id.list_item_card_small_tvTitle);
         TextView tvDes = (TextView) view.findViewById(R.id.list_item_card_small_tvDes);
+        TextView tvAuthor = (TextView) view.findViewById(R.id.list_item_card_small_tvAuthor);
+        TextView tvView = (TextView) view.findViewById(R.id.list_item_card_small_tvView);
         CardView cardView = (CardView) view.findViewById(R.id.card_view);
         viewHolder.addView(imageView);
         viewHolder.addView(tvTitle);
         viewHolder.addView(tvDes);
+        viewHolder.addView(tvAuthor);
+        viewHolder.addView(tvView);
         viewHolder.addView(cardView);
     }
 
@@ -64,14 +71,18 @@ public class RelatedGroup extends Group
         CardView cardView = (CardView) viewHolder.getView(R.id.card_view);
         TextView tvTitle = (TextView) viewHolder.getView(R.id.list_item_card_small_tvTitle);
         TextView tvDes = (TextView) viewHolder.getView(R.id.list_item_card_small_tvDes);
+        TextView tvAuthor = (TextView) viewHolder.getView(R.id.list_item_card_small_tvAuthor);
+        TextView tvView = (TextView) viewHolder.getView(R.id.list_item_card_small_tvView);
         Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
 //        ImageUtil.displayImageWithSize(imageView, imageUrl, null, width / 4, width / 4);
         ImageUtil.displayImage(imageView, imageUrl, null);
-        tvTitle.setText(title);
+        tvTitle.setText(Html.fromHtml(title));
         tvDes.setText(description);
+        tvAuthor.setText(author);
+        tvView.setText(views);
         cardView.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -126,6 +137,26 @@ public class RelatedGroup extends Group
         this.imageUrl = imageUrl;
     }
 
+    public String getAuthor()
+    {
+        return author;
+    }
+
+    public void setAuthor(String author)
+    {
+        this.author = author;
+    }
+
+    public String getViews()
+    {
+        return views;
+    }
+
+    public void setViews(String views)
+    {
+        this.views = views;
+    }
+
     @Override
     public Context getContext()
     {
@@ -155,6 +186,8 @@ public class RelatedGroup extends Group
         relatedGroup.setTitle(relatedDTO.getTitle());
         relatedGroup.setDescription(relatedDTO.getSapo());
         relatedGroup.setSlug(relatedDTO.getSlug());
+        relatedGroup.setAuthor(relatedDTO.getAuthor());
+        relatedGroup.setViews(relatedDTO.getView());
         return relatedGroup;
     }
 

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 import butterknife.InjectView;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
@@ -11,10 +13,17 @@ import com.icom.gosutv.R;
 import com.icom.gosutv.base.BaseFragment;
 import com.icom.gosutv.sao.RestfulService;
 import com.icom.gosutv.sao.dto.FeedDTO;
+import com.icom.gosutv.sao.dto.ListFeedDTO;
 import com.icom.gosutv.ui.adapter.CommonRecycleViewAdapter;
+import com.icom.gosutv.ui.listener.EndlessRecyclerOnScrollListener;
 import com.icom.gosutv.ui.model.FeedModel;
 import com.icom.gosutv.utils.Constants;
+import com.icom.gosutv.utils.Utils;
 import com.melnykov.fab.FloatingActionButton;
+import com.pnikosis.materialishprogress.ProgressWheel;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +40,9 @@ public class ListFeedPhotoFragment extends BaseFragment
     private int gid;
     @InjectView(R.id.fragment_recyclerview_fab)
     FloatingActionButton floatingActionButton;
+    @InjectView(R.id.fragment_recyclerview_bar)
+    ProgressWheel progressWheel;
+    CommonRecycleViewAdapter adapter;
 
     @Override
     public int getLayout()
@@ -49,47 +61,67 @@ public class ListFeedPhotoFragment extends BaseFragment
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        new AsyncTask<String, List<FeedDTO>, List<FeedDTO>>()
+        progressWheel.setVisibility(View.VISIBLE);
+        RestfulService.getInstance().getListFeedsWithParams(0, 4, gid+"", null, "gallery", new Callback<ListFeedDTO>()
         {
             @Override
-            protected void onPreExecute()
+            public void success(ListFeedDTO listFeedDTO, Response response)
             {
-                super.onPreExecute();
+                progressWheel.setVisibility(View.GONE);
+                List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
+                afterAsync(feedModels);
+//                for (FeedModel feedModel : feedModels)
+//                {
+//                    adapter.getFeedModels().add(feedModel);
+//                    adapter.notifyDataSetChanged();
+//                }
             }
 
             @Override
-            protected List<FeedDTO> doInBackground(String... strings)
+            public void failure(RetrofitError error)
             {
-                List<FeedDTO> storyDTOs;
-                if (gid == 0)
-                {
-                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, 30, 4, null).getFeedDTOs();
-                }
-                else
-                {
-                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, 30, 3, null).getFeedDTOs();
-                }
-                return storyDTOs;
+                progressWheel.setVisibility(View.GONE);
+                Toast.makeText(getActivity(), "No network connection", Toast.LENGTH_SHORT).show();
             }
+        });
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager)
+        {
 
             @Override
-            protected void onPostExecute(final List<FeedDTO> feedDTOs)
+            public void onLoadMore(final int current_page)
             {
-                super.onPostExecute(feedDTOs);
-                List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(feedDTOs);
-                List<FeedModel> feedModelPhoto = new ArrayList<FeedModel>();
-                for(FeedModel feedModel : feedModels)
+                RestfulService.getInstance().getListFeedsWithParams(current_page, 4, gid+"", null, "gallery", new Callback<ListFeedDTO>()
                 {
-                    if (feedModel.getDisPlayType().equals(Constants.DISPLAY_TYPE_PHOTO))
+                    @Override
+                    public void success(ListFeedDTO listFeedDTO, Response response)
                     {
-                        feedModelPhoto.add(feedModel);
+                        progressWheel.setVisibility(View.GONE);
+                        List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
+                        for (FeedModel feedModel : feedModels)
+                        {
+                            adapter.getFeedModels().add(feedModel);
+                            adapter.notifyDataSetChanged();
+                        }
                     }
-                }
-                CommonRecycleViewAdapter adapter = new CommonRecycleViewAdapter(getActivity(), feedModelPhoto, false);
-                mAdapter = new RecyclerViewMaterialAdapter(adapter);
-                mRecyclerView.setAdapter(mAdapter);
+
+                    @Override
+                    public void failure(RetrofitError error)
+                    {
+                        Toast.makeText(getActivity(), "No network connection", Toast.LENGTH_SHORT);
+                    }
+                });
             }
-        }.execute();
+        });
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+    }
+
+    public void afterAsync(List<FeedModel> feedModels)
+    {
+        progressWheel.setVisibility(View.GONE);
+        adapter = new CommonRecycleViewAdapter(getActivity(), feedModels, false);
+        mAdapter = new RecyclerViewMaterialAdapter(adapter);
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

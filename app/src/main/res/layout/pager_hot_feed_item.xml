@@ -16,11 +16,12 @@
     <TextView
             android:id="@+id/pager_hot_feed_item__tvTitle"
             style="@style/TextTitleStyle"
+            android:layout_width="match_parent"
             android:layout_marginTop="@dimen/spacing_small"
             android:paddingRight="@dimen/spacing_small"
             android:padding="10dp"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal"
+            android:textSize="@dimen/text_size_smaller"
             android:background="@color/black_transparent"
             android:layout_alignParentBottom="true"/>
 </RelativeLayout>

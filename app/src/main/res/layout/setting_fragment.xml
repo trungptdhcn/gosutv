@@ -10,30 +10,31 @@
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="4.5"
+            android:layout_weight="4.9"
             >
         <TextView
                 android:text="LỌC TIN"
                 android:layout_alignParentBottom="true"
-                android:textSize="@dimen/text_size_smaller"
-                android:textStyle="bold"
-                android:textColor="#4baac8"
+                android:textSize="14dp"
+                android:textColor="@color/light_gray"
                 android:typeface="normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_small"/>
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_mini"
+                />
         <ImageView
                 style="@style/LineHorizontal"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
-                android:background="#4baac8"
+                android:background="@color/light_gray"
                 />
     </RelativeLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="4.3">
+            android:layout_weight="3.5">
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -44,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:text="Lọc tin cho Trang chủ"
                     android:textSize="@dimen/text_size_small"
-                    android:typeface="serif"
+                    android:typeface="normal"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/spacing_small"/>
             <com.icom.gosutv.ui.customview.SettingsToggle
@@ -54,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/spacing_mini"
                     widget:prefName="setupFilter"/>
         </RelativeLayout>
         <RelativeLayout
@@ -61,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_marginTop="@dimen/spacing_mini"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:clickable="false">
             <TextView
                     style="@style/TextStyleSetting"
@@ -69,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:text="Dota"
                     android:textSize="@dimen/text_size_small"
-                    android:typeface="serif"
+                    android:typeface="normal"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/spacing_normal"
                    />
@@ -80,6 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/spacing_mini"
                     widget:prefName="Dota"
                     />
         </RelativeLayout>
@@ -88,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_marginTop="@dimen/spacing_mini"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:clickable="false">
             <TextView
                     android:id="@+id/setting_fragment_tvFilterLol"
@@ -98,7 +101,7 @@
                     android:text="Lol"
                     android:textSize="@dimen/text_size_small"
                     android:layout_centerVertical="true"
-                    android:typeface="serif"
+                    android:typeface="normal"
                     android:layout_marginLeft="@dimen/spacing_normal"/>
             <com.icom.gosutv.ui.customview.SettingsToggle
                     xmlns:widget="http://schemas.android.com/apk/res-auto"
@@ -106,30 +109,87 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/spacing_mini"
                     android:layout_centerVertical="true"
                     widget:prefName="Lol"/>
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/setting_fragment_rlFilterOverwatch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:clickable="false">
+            <TextView
+                    android:id="@+id/setting_fragment_tvFilterOverwatch"
+                    style="@style/TextStyleSetting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Overwatch"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_centerVertical="true"
+                    android:typeface="normal"
+                    android:layout_marginLeft="@dimen/spacing_normal"/>
+            <com.icom.gosutv.ui.customview.SettingsToggle
+                    xmlns:widget="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/setting_screen_toggleButtonOverwatch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/spacing_mini"
+                    android:layout_centerVertical="true"
+                    widget:prefName="Overwatch"/>
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/setting_fragment_rlFilterOther"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:clickable="false">
+            <TextView
+                    android:id="@+id/setting_fragment_tvFilterOther"
+                    style="@style/TextStyleSetting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Các game khác"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_centerVertical="true"
+                    android:typeface="normal"
+                    android:layout_marginLeft="@dimen/spacing_normal"/>
+            <com.icom.gosutv.ui.customview.SettingsToggle
+                    xmlns:widget="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/setting_screen_toggleButtonOther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/spacing_mini"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    widget:prefName="Other"/>
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.5"
+            android:layout_weight="2.5"
             android:orientation="vertical"
+            android:layout_marginTop="@dimen/spacing_huge"
             >
         <TextView
                 android:text="GIỚI THIỆU"
                 android:layout_alignParentBottom="true"
-                android:textSize="@dimen/text_size_smaller"
-                android:textStyle="bold"
-                android:textColor="#4baac8"
+                android:textSize="14dp"
+                android:textColor="@color/light_gray"
                 android:typeface="normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_small"/>
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_mini"
+                />
         <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#4baac8"/>
+                android:layout_height="1dp"
+                android:background="@color/light_gray"/>
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -139,7 +199,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"/>
+                    android:textSize="@dimen/text_size_small"
+                    android:typeface="normal"
+                    android:layout_marginLeft="5dp"
+                    />
             <ImageView
                     style="@style/LineHorizontal"
                     android:layout_alignParentBottom="true"/>
@@ -153,6 +216,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_size_small"
+                    android:typeface="normal"
                     android:layout_marginLeft="5dp"/>
             <ImageView
                     style="@style/LineHorizontal"
@@ -167,6 +232,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_size_small"
+                    android:typeface="normal"
                     android:layout_marginLeft="5dp"/>
 
             <ImageView

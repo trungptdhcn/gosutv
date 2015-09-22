@@ -26,12 +26,22 @@ public class SettingFragment extends BaseFragment
     SettingsToggle toggleButtonDota;
     @InjectView(R.id.setting_screen_toggleButtonLol)
     SettingsToggle toggleButtonLol;
+    @InjectView(R.id.setting_screen_toggleButtonOverwatch)
+    SettingsToggle toggleButtonOverwatch;
+    @InjectView(R.id.setting_screen_toggleButtonOther)
+    SettingsToggle toggleButtonOther;
 
     @InjectView(R.id.setting_fragment_rlFilterDota)
     RelativeLayout rlFilterDota;
 
     @InjectView(R.id.setting_fragment_rlFilterLol)
     RelativeLayout rlFilterLol;
+
+    @InjectView(R.id.setting_fragment_rlFilterOverwatch)
+    RelativeLayout rlFilterOverwatch;
+
+    @InjectView(R.id.setting_fragment_rlFilterOther)
+    RelativeLayout rlFilterOther;
 
     @Override
     public int getLayout()
@@ -48,15 +58,31 @@ public class SettingFragment extends BaseFragment
         {
             disable(rlFilterDota,true);
             disable(rlFilterLol,true);
+            disable(rlFilterOverwatch,true);
+            disable(rlFilterOther,true);
             rlFilterDota.setAlpha(1);
             rlFilterLol.setAlpha(1);
+            rlFilterOverwatch.setAlpha(1);
+            rlFilterOther.setAlpha(1);
+//            rlFilterDota.setVisibility(View.VISIBLE);
+//            rlFilterLol.setVisibility(View.VISIBLE);
+//            rlFilterOther.setVisibility(View.VISIBLE);
+//            rlFilterOverwatch.setVisibility(View.VISIBLE);
         }
         else
         {
             disable(rlFilterDota,false);
             disable(rlFilterLol,false);
+            disable(rlFilterOverwatch,false);
+            disable(rlFilterOther,false);
             rlFilterDota.setAlpha(0.5f);
             rlFilterLol.setAlpha(0.5f);
+            rlFilterOverwatch.setAlpha(0.5f);
+            rlFilterOther.setAlpha(0.5f);
+//            rlFilterDota.setVisibility(View.GONE);
+//            rlFilterLol.setVisibility(View.GONE);
+//            rlFilterOther.setVisibility(View.VISIBLE);
+//            rlFilterOverwatch.setVisibility(View.VISIBLE);
         }
         toggleButton.setToggleButtonListener(new ToggleButtonListener()
         {
@@ -69,15 +95,27 @@ public class SettingFragment extends BaseFragment
                 {
                     disable(rlFilterDota,true);
                     disable(rlFilterLol,true);
+                    disable(rlFilterOverwatch,true);
+                    disable(rlFilterOther,true);
                     rlFilterDota.setAlpha(1);
                     rlFilterLol.setAlpha(1);
+                    rlFilterOverwatch.setAlpha(1);
+                    rlFilterOther.setAlpha(1);
+//                    rlFilterDota.setVisibility(View.VISIBLE);
+//                    rlFilterLol.setVisibility(View.VISIBLE);
                 }
                 else
                 {
                     disable(rlFilterDota,false);
                     disable(rlFilterLol,false);
+                    disable(rlFilterOverwatch,false);
+                    disable(rlFilterOther,false);
                     rlFilterDota.setAlpha(0.5f);
                     rlFilterLol.setAlpha(0.5f);
+                    rlFilterOverwatch.setAlpha(0.5f);
+                    rlFilterOther.setAlpha(0.5f);
+//                    rlFilterDota.setVisibility(View.VISIBLE);
+//                    rlFilterLol.setVisibility(View.VISIBLE);
                 }
             }
         });

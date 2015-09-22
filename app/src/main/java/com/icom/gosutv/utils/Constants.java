@@ -18,6 +18,8 @@ public class Constants
     public static String POSITION = "position";
     public static String TITLE = "title";
     public static String MY_LIST = "mylist";
+    public static String AUTHOR = "author";
+    public static String VIEW = "view";
     public static String DISPLAY_TYPE_VIDEO = "video";
     public static String DISPLAY_TYPE_NEWS = "news";
     public static String DISPLAY_TYPE_PHOTO = "gallery";

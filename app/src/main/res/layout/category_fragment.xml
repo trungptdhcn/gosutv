@@ -11,6 +11,7 @@
             android:layout_height="match_parent"
             android:numColumns="2"
             android:layout_marginTop="@dimen/spacing_normal"
+            android:verticalSpacing="@dimen/spacing_small"
             >
     </GridView>
 </LinearLayout>

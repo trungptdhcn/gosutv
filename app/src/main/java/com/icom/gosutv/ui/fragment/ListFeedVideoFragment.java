@@ -1,10 +1,17 @@
 package com.icom.gosutv.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 import butterknife.InjectView;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
@@ -12,11 +19,17 @@ import com.icom.gosutv.R;
 import com.icom.gosutv.base.BaseFragment;
 import com.icom.gosutv.sao.RestfulService;
 import com.icom.gosutv.sao.dto.FeedDTO;
+import com.icom.gosutv.sao.dto.ListFeedDTO;
 import com.icom.gosutv.ui.adapter.CommonRecycleViewAdapter;
+import com.icom.gosutv.ui.listener.EndlessRecyclerOnScrollListener;
 import com.icom.gosutv.ui.model.FeedModel;
 import com.icom.gosutv.utils.Constants;
+import com.icom.gosutv.utils.Utils;
 import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +48,7 @@ public class ListFeedVideoFragment extends BaseFragment
     private int gid;
     @InjectView(R.id.fragment_recyclerview_fab)
     FloatingActionButton floatingActionButton;
-
+    CommonRecycleViewAdapter adapter;
 
     @Override
     public int getLayout()
@@ -54,49 +67,63 @@ public class ListFeedVideoFragment extends BaseFragment
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        new AsyncTask<String, List<FeedDTO>, List<FeedDTO>>()
+        RestfulService.getInstance().getListFeedsWithParams(0, 4, gid+"", null, "video", new Callback<ListFeedDTO>()
         {
             @Override
-            protected void onPreExecute()
+            public void success(ListFeedDTO listFeedDTO, Response response)
             {
-                super.onPreExecute();
-                progressWheel.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            protected List<FeedDTO> doInBackground(String... strings)
-            {
-                List<FeedDTO> storyDTOs;
-                if (gid == 0)
-                {
-                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, 30, 4, null).getFeedDTOs();
-                }
-                else
-                {
-                    storyDTOs = RestfulService.getInstance().getListFeedsWithParams(null, 30, 3, null).getFeedDTOs();
-                }
-                return storyDTOs;
-            }
-
-            @Override
-            protected void onPostExecute(final List<FeedDTO> feedDTOs)
-            {
-                super.onPostExecute(feedDTOs);
                 progressWheel.setVisibility(View.GONE);
-                List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(feedDTOs);
-                List<FeedModel> feedModelVideo = new ArrayList<FeedModel>();
-                for(FeedModel feedModel : feedModels)
-                {
-                    if (feedModel.getDisPlayType().equals(Constants.DISPLAY_TYPE_VIDEO))
-                    {
-                        feedModelVideo.add(feedModel);
-                    }
-                }
-                CommonRecycleViewAdapter adapter = new CommonRecycleViewAdapter(getActivity(), feedModelVideo, false);
-                mAdapter = new RecyclerViewMaterialAdapter(adapter);
-                mRecyclerView.setAdapter(mAdapter);
+                List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
+                afterAsync(feedModels);
             }
-        }.execute();
+
+            @Override
+            public void failure(RetrofitError error)
+            {
+                progressWheel.setVisibility(View.GONE);
+                Toast.makeText(getActivity(), "No network connection", Toast.LENGTH_SHORT).show();
+            }
+        });
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager)
+        {
+            @Override
+            public void onLoadMore(final int current_page)
+            {
+                RestfulService.getInstance().getListFeedsWithParams(current_page, 4, gid+"", null, "video", new Callback<ListFeedDTO>()
+                {
+                    @Override
+                    public void success(ListFeedDTO listFeedDTO, Response response)
+                    {
+                        progressWheel.setVisibility(View.GONE);
+                        adapter.getFeedModels().addAll(FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs()));
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error)
+                    {
+                        Toast.makeText(getActivity(), "No network connection", Toast.LENGTH_SHORT);
+                    }
+                });
+            }
+        });
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        getActivity().getSupportLoaderManager().destroyLoader(1);
+        super.onDestroy();
+    }
+
+    public void afterAsync(List<FeedModel> feedModels)
+    {
+        progressWheel.setVisibility(View.GONE);
+        adapter = new CommonRecycleViewAdapter(getActivity(), feedModels, false);
+        mAdapter = new RecyclerViewMaterialAdapter(adapter);
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

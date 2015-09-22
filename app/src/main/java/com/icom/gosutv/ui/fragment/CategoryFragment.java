@@ -37,19 +37,32 @@ public class CategoryFragment extends BaseFragment
         categoryDOTA.setImageUrl(R.drawable.dota_2_icon + "");
         CategoryGroup categoryLOL = new CategoryGroup();
         categoryLOL.setImageUrl(R.drawable.lol_icon + "");
-        categoryGroups.add(categoryDOTA);
+        CategoryGroup overWatch = new CategoryGroup();
+        overWatch.setImageUrl(R.drawable.overwatch + "");
+        CategoryGroup other = new CategoryGroup();
+        other.setImageUrl(R.drawable.other_game + "");
         categoryGroups.add(categoryLOL);
+        categoryGroups.add(categoryDOTA);
+        categoryGroups.add(overWatch);
+        categoryGroups.add(other);
         adapter = new CommonAdapter(getActivity(), categoryGroups);
         grCategory.setAdapter(adapter);
-        grCategory.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-            {
-                Intent intent = new Intent(getActivity(), ListFeedCategoryActivity.class);
-                intent.putExtra(Constants.GID, i);
-                getActivity().startActivity(intent);
-            }
-        });
+//        grCategory.setOnItemClickListener(new AdapterView.OnItemClickListener()
+//        {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+//            {
+//                Intent intent = new Intent(getActivity(), ListFeedCategoryActivity.class);
+//                if (i == 0)
+//                {
+//                    intent.putExtra(Constants.GID, 4);
+//                }
+//                else
+//                {
+//                    intent.putExtra(Constants.GID, 3);
+//                }
+//                getActivity().startActivity(intent);
+//            }
+//        });
     }
 }

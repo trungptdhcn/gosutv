@@ -8,6 +8,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+    <string name="error_noconnection">Xin vui lòng kiểm tra lại kết nối mạng</string>
 
     <!-- <string name="drawer_icon_dialogs">&#xe803;</string> -->
 
@@ -34,5 +35,7 @@
     <!-- =================================Toggle Button============================= -->
     <string name="preferences_key">com.gisinc.androidexamples.androidtogglebutton</string>
     <string name="title_activity_filter_feed_setting">FilterFeedSettingActivity</string>
+    <!--======================Message==========================================-->
 
+    <string name="error_no_have_network">No has network connection!</string>
 </resources>

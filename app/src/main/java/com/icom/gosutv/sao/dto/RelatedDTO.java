@@ -1,5 +1,7 @@
 package com.icom.gosutv.sao.dto;
 
+import java.util.List;
+
 /**
  * Created by Trung on 9/1/2015.
  */

@@ -74,6 +74,13 @@
                     android:layout_height="60dp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/play_thumbnail"/>
+            <ProgressBar
+                    android:id="@+id/feed_detail_content_fragment_ivProgressBar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    android:src="@drawable/play_thumbnail"/>
         </RelativeLayout>
         <com.google.android.youtube.player.YouTubePlayerView
                 android:id="@+id/feed_detail_content_fragment_view"

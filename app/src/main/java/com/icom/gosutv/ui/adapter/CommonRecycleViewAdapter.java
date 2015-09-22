@@ -7,11 +7,13 @@ import android.graphics.Point;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.icom.gosutv.R;
@@ -45,6 +47,7 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
         this.activity = activity;
     }
 
+
     @Override
     public int getItemViewType(int position)
     {
@@ -56,7 +59,6 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 return TYPE_CELL;
         }
     }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType)
@@ -92,8 +94,10 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
         switch (getItemViewType(position))
         {
             case TYPE_HEADER:
-                ((FeedHotViewHolder) holder).tvTitle.setText(feedModels.get(position).getTitle());
+                ((FeedHotViewHolder) holder).tvTitle.setText(Html.fromHtml(feedModels.get(position).getTitle()));
                 ((FeedHotViewHolder) holder).tvDes.setText(feedModels.get(position).getSapo());
+                ((FeedHotViewHolder) holder).tvAuthor.setText(feedModels.get(position).getAuthor());
+                ((FeedHotViewHolder) holder).tvView.setText(feedModels.get(position).getView());
                 ImageUtil.displayImage(((FeedHotViewHolder) holder).ivImage, feedModels.get(position).getThumb(), null);
                 ((FeedHotViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener()
                 {
@@ -108,7 +112,7 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 });
                 break;
             case TYPE_CELL:
-                ((FeedViewHolder) holder).tvTitle.setText(feedModels.get(position).getTitle());
+                ((FeedViewHolder) holder).tvTitle.setText(Html.fromHtml(feedModels.get(position).getTitle()));
                 ((FeedViewHolder) holder).tvDes.setText(feedModels.get(position).getSapo());
                 ((FeedViewHolder) holder).tvAuthor.setText(feedModels.get(position).getAuthor());
                 ((FeedViewHolder) holder).tvView.setText(feedModels.get(position).getView());
@@ -176,8 +180,8 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
             tvTitle = (TextView) itemView.findViewById(R.id.list_item_card_small_tvTitle);
             tvDes = (TextView) itemView.findViewById(R.id.list_item_card_small_tvDes);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
-            tvAuthor = (TextView) itemView.findViewById(R.id.list_item_google_cards_travel_tvAuthor);
-            tvView = (TextView) itemView.findViewById(R.id.list_item_google_cards_travel_tvView);
+            tvAuthor = (TextView) itemView.findViewById(R.id.list_item_card_small_tvAuthor);
+            tvView = (TextView) itemView.findViewById(R.id.list_item_card_small_tvView);
             itemView.setOnClickListener(this);
         }
 
@@ -185,6 +189,17 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
         public void onClick(View view)
         {
 
+        }
+    }
+
+    public static class ProgressViewHolder extends RecyclerView.ViewHolder
+    {
+        public ProgressBar progressBar;
+
+        public ProgressViewHolder(View v)
+        {
+            super(v);
+            progressBar = (ProgressBar) v.findViewById(R.id.recycle_progress_progressBar);
         }
     }
 
@@ -203,6 +218,8 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
             ivImage = (ImageView) itemView.findViewById(R.id.list_item_card_big_image);
             tvTitle = (TextView) itemView.findViewById(R.id.list_item_card_big_tvTitle);
             tvDes = (TextView) itemView.findViewById(R.id.list_item_card_big_tvSapo);
+            tvAuthor = (TextView) itemView.findViewById(R.id.list_item_card_big_tvAuthor);
+            tvView = (TextView) itemView.findViewById(R.id.list_item_card_big_tvView);
             cardView = (CardView) itemView.findViewById(R.id.list_item_card_big_card_view);
             itemView.setOnClickListener(this);
         }
@@ -213,5 +230,15 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
         {
 
         }
+    }
+
+    public List<FeedModel> getFeedModels()
+    {
+        return feedModels;
+    }
+
+    public void setFeedModels(List<FeedModel> feedModels)
+    {
+        this.feedModels = feedModels;
     }
 }

@@ -1,9 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/related_header_layout_tvTitle"
-        style="@style/TextTitleStyle"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_smaller"
-        android:paddingLeft="@dimen/spacing_mini"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="left|center_vertical"
+        android:padding="@dimen/spacing_small"
+        >
+    <TextView
+            android:id="@+id/related_header_layout_tvTitle"
+            style="@style/TextTitleStyle"
+            android:textColor="@color/black"
+            android:textStyle="normal"
+            android:textSize="@dimen/text_size_smaller"
+           />
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            >
+        <TextView
+                android:id="@+id/related_header_layout_tvAuthor"
+                style="@style/TextContentStyle"
+                android:gravity="left|center_vertical"
+                android:maxLines="3"
+                android:text="Trungpt"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_small"
+                android:drawableLeft="@drawable/pencil_gray_big"
+                android:drawablePadding="3dp"
+                />
+        <TextView
+                android:id="@+id/related_header_layout_tvView"
+                style="@style/TextContentStyle"
+                android:gravity="left|center_vertical"
+                android:maxLines="3"
+                android:text="12"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_small"
+                android:layout_toRightOf="@+id/related_header_layout_tvAuthor"
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:drawableLeft="@drawable/eye_gray_big"
+                android:drawablePadding="3dp"
+                />
+    </RelativeLayout>
+</LinearLayout>

@@ -24,6 +24,7 @@ public class RestfulAdapter
             restAdapter =  new RestAdapter.Builder()
                     .setEndpoint(Constants.BASE_URL)
                     .setClient(new OkClient(okHttpClient))
+                    .setErrorHandler(new ErrorHandleRetrofit())
                     .build();
         }
         return restAdapter;

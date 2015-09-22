@@ -16,9 +16,12 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.*;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -34,6 +37,7 @@ import com.icom.gosutv.sao.dto.PhotoDTO;
 import com.icom.gosutv.ui.adapter.CommonAdapter;
 import com.icom.gosutv.ui.adapter.GalleryAdapter;
 import com.icom.gosutv.ui.adapter.ViewpagerAdapter;
+import com.icom.gosutv.ui.customview.MyOwnWebViewClient;
 import com.icom.gosutv.ui.customview.VideoControllerView;
 import com.icom.gosutv.ui.group.RelatedGroup;
 import com.icom.gosutv.ui.model.FeedModel;
@@ -57,11 +61,11 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
     @InjectView(R.id.video_container)
     RelativeLayout rlVideoContainer;
 
-    //    @InjectView(R.id.feed_detail_fragment_tvTitle)
-//    TextView tvTitle;
+    //    @InjectView(R.id.feed_detail_content_fragment_rlContainer)
+//    RelativeLayout rlContainer;
     @InjectView(R.id.feed_detail_content_fragment_rlActionbar)
     RelativeLayout rlActionBar;
-//    @InjectView(R.id.feed_detail_fragment_tvTitleMedia)
+    //    @InjectView(R.id.feed_detail_fragment_tvTitleMedia)
 //    TextView tvTitleMedia;
     @InjectView(R.id.feed_detail_fragment_tvDes)
     WebView tvDes;
@@ -77,6 +81,8 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
 
     @InjectView(R.id.feed_detail_content_fragment_view)
     YouTubePlayerView youTubePlayerView;
+//    @InjectView(R.id.feed_detail_content_fragment_view)
+//    WebView youTubePlayerView;
 
     @InjectView(R.id.videoSurfaceContainer)
     FrameLayout videoOriginalView;
@@ -84,6 +90,8 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
     ImageView ivThumbnail;
     @InjectView(R.id.feed_detail_content_fragment_ivPlayer)
     ImageView ivPlayer;
+    @InjectView(R.id.feed_detail_content_fragment_ivProgressBar)
+    ProgressBar progressBar;
 
     @InjectView(R.id.feed_detail_content_fragment_viewpager)
     ViewPager viewPager;
@@ -94,8 +102,6 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
     SurfaceView videoSurface;
     MediaPlayer player;
     VideoControllerView controller;
-    private RecyclerView.Adapter mAdapter;
-    private static final int RECOVERY_DIALOG_REQUEST = 1;
 
     private String slug;
     private static boolean isFullScreen = false;
@@ -122,6 +128,7 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
             {
                 super.onPreExecute();
                 progressWheel.setVisibility(View.VISIBLE);
+                rlContainer.setVisibility(View.GONE);
             }
 
             @Override
@@ -130,9 +137,10 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
                 feedDTO = RestfulService.getInstance().getFeedDetail(slug);
                 return feedDTO;
             }
-//
+
+            //
             @Override
-            protected void onPostExecute(FeedDetailDTO feedDTO)
+            protected void onPostExecute(final FeedDetailDTO feedDTO)
             {
                 super.onPostExecute(feedDTO);
                 if (feedDTO.getItemDTO().getDisplayType().equals(Constants.DISPLAY_TYPE_NEWS))
@@ -156,7 +164,11 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
                     llRelated.setVisibility(View.VISIBLE);
                     View relatedHeader = getLayoutInflater().inflate(R.layout.related_header_layout, lvRelated, false);
                     TextView tvTitleMediaHeader = (TextView) relatedHeader.findViewById(R.id.related_header_layout_tvTitle);
-                    tvTitleMediaHeader.setText(feedDTO.getItemDTO().getTitle());
+                    tvTitleMediaHeader.setText(Html.fromHtml(feedDTO.getItemDTO().getTitle()));
+                    TextView tvAuthor = (TextView) relatedHeader.findViewById(R.id.related_header_layout_tvAuthor);
+                    TextView tvView = (TextView) relatedHeader.findViewById(R.id.related_header_layout_tvView);
+                    tvAuthor.setText(feedDTO.getItemDTO().getAuthor());
+                    tvView.setText(feedDTO.getItemDTO().getView());
                     lvRelated.addHeaderView(relatedHeader);
                     rlVideoContainer.setVisibility(View.VISIBLE);
                     try
@@ -178,9 +190,20 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
                                 {
                                     player.setDataSource(FeedDetailActivity.this, Uri.parse(photoDTO.getVideoDTO().getUrlMp4()));
                                     player.setOnPreparedListener(FeedDetailActivity.this);
-                                    player.prepareAsync();
+                                    controller.setEnabled(false);
+                                    ivPlayer.setOnClickListener(new View.OnClickListener()
+                                    {
+                                        @Override
+                                        public void onClick(View view)
+                                        {
+                                            ivPlayer.setVisibility(View.GONE);
+                                            ivThumbnail.setVisibility(View.GONE);
+                                            player.prepareAsync();
+                                            progressBar.setVisibility(View.VISIBLE);
+                                            controller.setEnabled(true);
+                                        }
+                                    });
                                 }
-
                             }
                             else if (photoDTO.getSrcType().equals(Constants.SCR_TYPE_VIDEO_YOUTUBE))
                             {
@@ -222,7 +245,11 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
                     llRelated.setVisibility(View.VISIBLE);
                     View relatedHeader = getLayoutInflater().inflate(R.layout.related_header_layout, lvRelated, false);
                     TextView tvTitleMediaHeader = (TextView) relatedHeader.findViewById(R.id.related_header_layout_tvTitle);
-                    tvTitleMediaHeader.setText(feedDTO.getItemDTO().getTitle());
+                    TextView tvAuthor = (TextView) relatedHeader.findViewById(R.id.related_header_layout_tvAuthor);
+                    TextView tvView = (TextView) relatedHeader.findViewById(R.id.related_header_layout_tvView);
+                    tvAuthor.setText(feedDTO.getItemDTO().getAuthor());
+                    tvView.setText(feedDTO.getItemDTO().getView());
+                    tvTitleMediaHeader.setText(Html.fromHtml(feedDTO.getItemDTO().getTitle()));
                     lvRelated.addHeaderView(relatedHeader);
                     rlVideoContainer.setVisibility(View.VISIBLE);
                     videoOriginalView.setVisibility(View.GONE);
@@ -230,12 +257,15 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
                     rlGallery.setVisibility(View.VISIBLE);
                     final List<FeedModel> feedModels = FeedModel.convertFromDataDTO(feedDTO.getItemDTO().getPhotoDTOs());
                     GalleryAdapter adapter = new GalleryAdapter(FeedDetailActivity.this, feedModels);
+                    adapter.setAuthor(feedDTO.getItemDTO().getAuthor());
+                    adapter.setView(feedDTO.getItemDTO().getView());
                     viewPager.setAdapter(adapter);
                     final List<RelatedGroup> relatedGroups = RelatedGroup.convertFromRelatedDTO(feedDTO.getRelatedDTOs());
                     CommonAdapter relatedAdapter = new CommonAdapter(FeedDetailActivity.this, relatedGroups);
                     lvRelated.setAdapter(relatedAdapter);
                 }
                 progressWheel.setVisibility(View.GONE);
+                rlContainer.setVisibility(View.VISIBLE);
             }
         }.execute();
     }
@@ -287,21 +317,10 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
     {
         controller.setMediaPlayer(this);
         controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
-        ivPlayer.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                ivPlayer.setVisibility(View.GONE);
-                ivThumbnail.setVisibility(View.GONE);
-                player.start();
-            }
-        });
-
+        mp.start();
+        progressBar.setVisibility(View.GONE);
     }
-    // End MediaPlayer.OnPreparedListener
 
-    // Implement VideoMediaController.MediaPlayerControl
     @Override
     public boolean canPause()
     {
@@ -415,11 +434,12 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
     {
         onBackPressed();
     }
+
     //
     @Override
     protected YouTubePlayer.Provider getYouTubePlayerProvider()
     {
-        return youTubePlayerView;
+        return null;
     }
 
 //    protected void onSaveInstanceState(Bundle out)

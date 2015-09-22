@@ -244,7 +244,7 @@ public class MaterialViewPagerAnimator {
                     ViewHelper.setTranslationY(mHeader.mLogo, (mHeader.finalTitleY - mHeader.originalTitleY) * percent);
                 } else {
                     ViewHelper.setTranslationY(mHeader.mLogo, (mHeader.finalTitleY - mHeader.originalTitleY) * percent);
-                    ViewHelper.setTranslationX(mHeader.mLogo, (mHeader.finalTitleX - mHeader.originalTitleX) * percent);
+//                    ViewHelper.setTranslationX(mHeader.mLogo, (mHeader.finalTitleX - mHeader.originalTitleX) * percent);
 
                     float scale = (1 - percent) * (1 - mHeader.finalScale) + mHeader.finalScale;
                     setScale(scale, mHeader.mLogo);
@@ -312,7 +312,7 @@ public class MaterialViewPagerAnimator {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 final int animatedValue = (Integer) animation.getAnimatedValue();
-                int colorAlpha = colorWithAlpha(animatedValue, lastPercent);
+                int colorAlpha = colorWithAlpha(animatedValue, 0);
                 mHeader.headerBackground.setBackgroundColor(colorAlpha);
                 mHeader.statusBackground.setBackgroundColor(colorAlpha);
                 mHeader.toolbar.setBackgroundColor(colorAlpha);

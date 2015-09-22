@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
@@ -85,7 +87,7 @@ public class ListFeedCategoryActivity extends AppCompatActivity
             @Override
             public CharSequence getPageTitle(int position)
             {
-                if (gid == 0)
+                if (gid == 4)
                 {
                     switch (position)
                     {
@@ -96,7 +98,6 @@ public class ListFeedCategoryActivity extends AppCompatActivity
                         case 2:
                             return Constants.PHOTO;
                     }
-
                 }
                 else
                 {
@@ -113,29 +114,32 @@ public class ListFeedCategoryActivity extends AppCompatActivity
                 return "";
             }
         });
+        final TextView headerLogo = (TextView) findViewById(R.id.logo_white);
         switch (gid)
         {
-            case 0:
+            case 4:
                 mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener()
                 {
                     @Override
                     public HeaderDesign getHeaderDesign(int page)
                     {
+                        headerLogo.setText("DOTA 2");
                         return HeaderDesign.fromColorResAndUrl(
-                                android.R.color.transparent,
+                                R.color.main_color_500,
                                 "http://thumb.connect360.vn/unsafe/0x0/img.gosutv.vn/pictures/2015/07/09/1436410972_4WCVkt9Q.jpg");
 
                     }
                 });
                 break;
-            case 1:
+            case 3:
                 mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener()
                 {
                     @Override
                     public HeaderDesign getHeaderDesign(int page)
                     {
+                        headerLogo.setText("LOL");
                         return HeaderDesign.fromColorResAndUrl(
-                                android.R.color.transparent,
+                                R.color.main_color_500,
                                 "http://img.gosutv.vn//pictures//2015//09//08//1441700754_WHEOOV3o.jpg");
 
                     }
@@ -182,18 +186,18 @@ public class ListFeedCategoryActivity extends AppCompatActivity
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
         View logo = findViewById(R.id.logo_white);
-        if (logo != null)
-        {
-            logo.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    mViewPager.notifyHeaderChanged();
-                    Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+//        if (logo != null)
+//        {
+//            logo.setOnClickListener(new View.OnClickListener()
+//            {
+//                @Override
+//                public void onClick(View v)
+//                {
+//                    mViewPager.notifyHeaderChanged();
+//                    Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }
         Toolbar toolbar = mViewPager.getToolbar();
         if (toolbar != null)
         {

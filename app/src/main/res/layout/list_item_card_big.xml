@@ -21,7 +21,6 @@
                       xmlns:app="http://schemas.android.com/apk/res"
                       android:layout_width="match_parent"
                       android:layout_height="340dp"
-                      android:background="@drawable/card_background_white"
                       android:minHeight="340dp"
                       android:orientation="vertical" >
 
@@ -44,19 +43,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:background="@drawable/google_cards_background_bottom"
-                    android:gravity="right"
-                    android:orientation="vertical" >
+                    android:gravity="left|center_vertical"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_mini">
 
                 <TextView
                         android:id="@+id/list_item_card_big_tvTitle"
                         style="@style/TextTitleStyle"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginTop="16dp"
                         android:text="Eat at Joe"
                         android:textColor="@color/black"
-                        android:textSize="24sp"
+                        android:textSize="@dimen/text_size_normal"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                        />
 
                 <TextView
@@ -64,15 +62,44 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:typeface="monospace"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
                         android:gravity="right"
                         android:maxLines="3"
                         android:text="@string/lorem_ipsum_long"
                         android:textColor="@color/material_blue_grey_700"
                         android:textSize="14sp"
+                        android:visibility="gone"
                         />
+                <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        >
+                    <TextView
+                            android:id="@+id/list_item_card_big_tvAuthor"
+                            style="@style/TextContentStyle"
+                            android:gravity="left|center_vertical"
+                            android:maxLines="3"
+                            android:text="Trungpt"
+                            android:textColor="@color/gray"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="normal"
+                            android:drawableLeft="@drawable/pencil_gray_big"
+                            android:drawablePadding="3dp"
+                            />
+                    <TextView
+                            android:id="@+id/list_item_card_big_tvView"
+                            style="@style/TextContentStyle"
+                            android:gravity="left|center_vertical"
+                            android:maxLines="3"
+                            android:text="12"
+                            android:textColor="@color/gray"
+                            android:textSize="@dimen/text_size_small"
+                            android:layout_marginLeft="@dimen/spacing_mini"
+                            android:layout_toRightOf="@+id/list_item_card_big_tvAuthor"
+                            android:drawableLeft="@drawable/eye_gray_big"
+                            android:drawablePadding="3dp"
+                            />
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

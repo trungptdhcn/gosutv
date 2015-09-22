@@ -1,5 +1,7 @@
 package com.icom.gosutv.sao.dto;
 
+import com.icom.gosutv.ui.model.FeedModel;
+
 /**
  * Created by Trung on 8/28/2015.
  */

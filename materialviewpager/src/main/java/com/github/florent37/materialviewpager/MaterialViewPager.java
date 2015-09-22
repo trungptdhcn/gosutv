@@ -151,6 +151,7 @@ public class MaterialViewPager extends FrameLayout implements ViewPager.OnPageCh
             if (settings.logoMarginTop != 0) {
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) logoContainer.getLayoutParams();
                 layoutParams.setMargins(0, settings.logoMarginTop, 0, 0);
+//                layoutParams.setMargins(0,0,100,0);
                 logoContainer.setLayoutParams(layoutParams);
             }
         }

@@ -48,7 +48,14 @@ public class CategoryGroup extends Group
             public void onClick(View view)
             {
                 Intent intent = new Intent(context, ListFeedCategoryActivity.class);
-                intent.putExtra(Constants.GID, position);
+                if (position == 0)
+                {
+                    intent.putExtra(Constants.GID, 3);
+                }
+                else
+                {
+                    intent.putExtra(Constants.GID, 4);
+                }
                 context.startActivity(intent);
             }
         });

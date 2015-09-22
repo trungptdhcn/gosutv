@@ -25,10 +25,10 @@
     <dimen name="statusBarHeight">0dp</dimen>
 
     <!--====================================================toggeg-->
-    <dimen name="settings_toggle_width">44dp</dimen>
-    <dimen name="settings_toggle_height">22dp</dimen>
-    <dimen name="settings_toggle_circle_diameter">22dp</dimen>
-    <dimen name="settings_toggle_circle_radius">11dp</dimen>
+    <dimen name="settings_toggle_width">40dp</dimen>
+    <dimen name="settings_toggle_height">20dp</dimen>
+    <dimen name="settings_toggle_circle_diameter">20dp</dimen>
+    <dimen name="settings_toggle_circle_radius">10dp</dimen>
     <dimen name="search_bar_height">48dp</dimen>
 
 </resources>

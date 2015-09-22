@@ -27,6 +27,10 @@ public class SilderActivity extends Activity implements PagerOnClickItem
     ViewPager viewpager;
     @InjectView(R.id.slide_pager_item_llActionBar)
     RelativeLayout llActionBar;
+    @InjectView(R.id.slide_pager_item_tvAuthor)
+    TextView tvAuthor;
+    @InjectView(R.id.slide_pager_item_tvView)
+    TextView tvView;
     SlideAdapter adapter;
 
 
@@ -40,6 +44,10 @@ public class SilderActivity extends Activity implements PagerOnClickItem
         String title = getIntent().getStringExtra(Constants.TITLE);
         Bundle bundle = getIntent().getExtras();
         List<FeedModel> listImage = bundle.getParcelableArrayList(Constants.MY_LIST);
+        String author = bundle.getString(Constants.AUTHOR);
+        String view = bundle.getString(Constants.VIEW);
+        tvAuthor.setText(author);
+        tvView.setText(view);
         adapter = new SlideAdapter(this, listImage);
         adapter.setPagerOnClickItem(this);
         viewpager.setAdapter(adapter);

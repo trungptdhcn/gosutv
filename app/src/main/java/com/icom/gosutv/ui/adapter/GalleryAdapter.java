@@ -30,6 +30,8 @@ public class GalleryAdapter extends PagerAdapter
 {
     private List<FeedModel> feedModels = new ArrayList<>();
     private ArrayList<View> views = new ArrayList<View>();
+    private String author;
+    private String view;
     private Activity activity;
     View rootView;
 
@@ -83,6 +85,8 @@ public class GalleryAdapter extends PagerAdapter
                 intent.putExtra(Constants.TITLE, feedModels.get(position).getTitle());
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList(Constants.MY_LIST, (ArrayList<? extends android.os.Parcelable>) feedModels);
+                bundle.putString(Constants.AUTHOR,author);
+                bundle.putString(Constants.VIEW,GalleryAdapter.this.view);
                 intent.putExtras(bundle);
                 view.getContext().startActivity(intent);
             }
@@ -126,5 +130,25 @@ public class GalleryAdapter extends PagerAdapter
     public void setFeedModels(List<FeedModel> feedModels)
     {
         this.feedModels = feedModels;
+    }
+
+    public String getView()
+    {
+        return view;
+    }
+
+    public void setView(String view)
+    {
+        this.view = view;
+    }
+
+    public String getAuthor()
+    {
+        return author;
+    }
+
+    public void setAuthor(String author)
+    {
+        this.author = author;
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.support.v4.view.PagerAdapter;
+import android.text.Html;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,22 +59,20 @@ public class ViewpagerAdapter extends PagerAdapter
         LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        final View viewLayout = inflater.inflate(R.layout.pager_hot_feed_item, container, false);
-        final View viewLayout = inflater.inflate(R.layout.pager_hot_feed_item,null);
+        final View viewLayout = inflater.inflate(R.layout.pager_hot_feed_item, null);
         ImageView imageView = (ImageView) viewLayout.findViewById(R.id.pager_hot_feed_item_ivImage);
         RelativeLayout rlContainer = (RelativeLayout) viewLayout.findViewById(R.id.pager_hot_feed_item_rlContainer);
         TextView tvTitle = (TextView) viewLayout.findViewById(R.id.pager_hot_feed_item__tvTitle);
         if (StringUtils.isNotEmpty(feedModels.get(position).getTitle()))
         {
-            tvTitle.setText(feedModels.get(position).getTitle());
+            tvTitle.setText(Html.fromHtml(feedModels.get(position).getTitle()));
         }
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-//        ImageUtil.displayImageWithSize(imageView, feedModels.get(position).getThumb()
-//                , null, width, height/3);
-        ImageUtil.displayImage(imageView, feedModels.get(position).getThumb(),null);
+        ImageUtil.displayImage(imageView, feedModels.get(position).getThumb(), null);
         rlContainer.setOnClickListener(new View.OnClickListener()
         {
             @Override

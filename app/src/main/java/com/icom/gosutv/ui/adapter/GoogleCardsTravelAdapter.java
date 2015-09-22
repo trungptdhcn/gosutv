@@ -52,89 +52,93 @@ public class GoogleCardsTravelAdapter extends ArrayAdapter<FeedModel>
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        final ViewHolder holder;
+//        final ViewHolder holder;
         FeedModel item;
-        switch (getItemViewType(position))
-        {
-            case TYPE_HEADER:
-                if (convertView == null)
-                {
-                    convertView = mInflater.inflate(
-                            R.layout.list_item_google_cards_travel, parent, false);
-                    holder = new ViewHolder();
-                    holder.image = (ImageView) convertView
-                            .findViewById(R.id.list_item_google_cards_travel_image);
-                    holder.ivPlayThumbnail = (ImageView) convertView
-                            .findViewById(R.id.list_item_google_cards_travel_ivThumbnail);
-                    holder.tvTitle = (TextView) convertView
-                            .findViewById(R.id.list_item_google_cards_travel_tvTitle);
-                    holder.tvSapo = (TextView) convertView
-                            .findViewById(R.id.list_item_google_cards_travel_tvSapo);
-                    holder.tvAuthor = (TextView) convertView
-                            .findViewById(R.id.list_item_google_cards_travel_tvAuthor);
-                    holder.tvView = (TextView) convertView
-                            .findViewById(R.id.list_item_google_cards_travel_tvView);
-                    convertView.setTag(holder);
-                }
-                else
-                {
-                    holder = (ViewHolder) convertView.getTag();
-                }
-
-                item = getItem(position);
-                if (item.getDisPlayType().equals(Constants.DISPLAY_TYPE_VIDEO))
-                {
-                    holder.ivPlayThumbnail.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    holder.ivPlayThumbnail.setVisibility(View.GONE);
-                }
-                ImageUtil.displayImage(holder.image, item.getThumb(), null);
-                holder.tvTitle.setText(item.getTitle());
-//                holder.tvSapo.setText(item.getSapo());
-                break;
-            case TYPE_CELL:
-                if (convertView == null)
-                {
-                    convertView = mInflater.inflate(
-                            R.layout.list_item_card_small_home, parent, false);
-                    holder = new ViewHolder();
-                    holder.image = (ImageView) convertView
-                            .findViewById(R.id.list_item_card_small_ivImage);
-                    holder.ivPlayThumbnail = (ImageView) convertView
-                            .findViewById(R.id.list_item_card_small_ivPlayThumbnail);
-                    holder.tvTitle = (TextView) convertView
-                            .findViewById(R.id.list_item_card_small_tvTitle);
-                    holder.tvAuthor = (TextView) convertView
-                            .findViewById(R.id.list_item_google_cards_travel_tvAuthor);
-                    holder.tvView = (TextView) convertView
-                            .findViewById(R.id.list_item_google_cards_travel_tvView);
-//                    holder.tvSapo = (TextView) convertView
-//                            .findViewById(R.id.list_item_google_cards_travel_tvSapo);
-                    convertView.setTag(holder);
-                }
-                else
-                {
-                    holder = (ViewHolder) convertView.getTag();
-                }
-
-                item = getItem(position);
-                if (item.getDisPlayType().equals(Constants.DISPLAY_TYPE_VIDEO))
-                {
-                    holder.ivPlayThumbnail.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    holder.ivPlayThumbnail.setVisibility(View.GONE);
-                }
-                ImageUtil.displayImage(holder.image, item.getThumb(), null);
-                holder.tvTitle.setText(item.getTitle());
-                holder.tvAuthor.setText(item.getAuthor());
-                holder.tvView.setText(item.getView());
-//                holder.tvSapo.setText(item.getSapo());
-                break;
-        }
+//        switch (getItemViewType(position))
+//        {
+//            case TYPE_HEADER:
+//        if (getItem(position) instanceof HeaderModel)
+//        {
+//            ViewHolder holder;
+//            if (convertView == null)
+//            {
+//                holder = new ViewHolder();
+//                convertView = mInflater.inflate(
+//                        R.layout.list_item_google_cards_travel, parent, false);
+//                holder.image = (ImageView) convertView
+//                        .findViewById(R.id.list_item_google_cards_travel_image);
+//                holder.ivPlayThumbnail = (ImageView) convertView
+//                        .findViewById(R.id.list_item_google_cards_travel_ivThumbnail);
+//                holder.tvTitle = (TextView) convertView
+//                        .findViewById(R.id.list_item_google_cards_travel_tvTitle);
+//                holder.tvSapo = (TextView) convertView
+//                        .findViewById(R.id.list_item_google_cards_travel_tvSapo);
+//                holder.tvAuthor = (TextView) convertView
+//                        .findViewById(R.id.list_item_google_cards_travel_tvAuthor);
+//                holder.tvView = (TextView) convertView
+//                        .findViewById(R.id.list_item_google_cards_travel_tvView);
+//                convertView.setTag(holder);
+//            }
+//            else
+//            {
+//                holder = (ViewHolder) convertView.getTag();
+//            }
+//
+//            item = getItem(position);
+//            if (item.getDisPlayType().equals(Constants.DISPLAY_TYPE_VIDEO))
+//            {
+//                holder.ivPlayThumbnail.setVisibility(View.VISIBLE);
+//            }
+//            else
+//            {
+//                holder.ivPlayThumbnail.setVisibility(View.GONE);
+//            }
+//            ImageUtil.displayImage(holder.image, item.getThumb(), null);
+//            holder.tvTitle.setText(item.getTitle());
+////        }
+//
+////        else
+////        {
+//            ViewHolder holder;
+//            if (convertView == null)
+//            {
+//                holder = new ViewHolder();
+//                convertView = mInflater.inflate(
+//                        R.layout.list_item_card_small_home, parent, false);
+//                holder = new ViewHolder();
+//                holder.image = (ImageView) convertView
+//                        .findViewById(R.id.list_item_card_small_ivImage);
+//                holder.ivPlayThumbnail = (ImageView) convertView
+//                        .findViewById(R.id.list_item_card_small_ivPlayThumbnail);
+//                holder.tvTitle = (TextView) convertView
+//                        .findViewById(R.id.list_item_card_small_tvTitle);
+//                holder.tvAuthor = (TextView) convertView
+//                        .findViewById(R.id.list_item_google_cards_travel_tvAuthor);
+//                holder.tvView = (TextView) convertView
+//                        .findViewById(R.id.list_item_google_cards_travel_tvView);
+////                    holder.tvSapo = (TextView) convertView
+////                            .findViewById(R.id.list_item_google_cards_travel_tvSapo);
+//                convertView.setTag(holder);
+//            }
+//            else
+//            {
+//                holder = (ViewHolder) convertView.getTag();
+//            }
+//
+//            item = getItem(position);
+//            if (item.getDisPlayType().equals(Constants.DISPLAY_TYPE_VIDEO))
+//            {
+//                holder.ivPlayThumbnail.setVisibility(View.VISIBLE);
+//            }
+//            else
+//            {
+//                holder.ivPlayThumbnail.setVisibility(View.GONE);
+//            }
+//            ImageUtil.displayImage(holder.image, item.getThumb(), null);
+//            holder.tvTitle.setText(item.getTitle());
+//            holder.tvAuthor.setText(item.getAuthor());
+//            holder.tvView.setText(item.getView());
+//        }
         return convertView;
 
     }

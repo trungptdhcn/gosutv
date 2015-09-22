@@ -1,10 +1,12 @@
 package com.icom.gosutv;
 
+import android.app.AlertDialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.google.android.gms.ads.AdRequest;
@@ -16,6 +18,9 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.onesignal.OneSignal;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends BaseActivity
 {
@@ -30,7 +35,7 @@ public class MainActivity extends BaseActivity
 //    private DrawerLayout mDrawerLayout;
 //    private ActionBarDrawerToggle mDrawerToggle;
 
-//    private CharSequence mDrawerTitle;
+    //    private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
     @Override
@@ -41,6 +46,7 @@ public class MainActivity extends BaseActivity
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        OneSignal.init(this, "45022017469", "21ebf694-3c08-11e5-b9da-af326eef5f98", new ExampleNotificationOpenedHandler());
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setTitle("Universal");
@@ -276,26 +282,105 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
-
+        OneSignal.onResumed();
         // Resume the AdView.
         mAdView.resume();
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         // Pause the AdView.
         mAdView.pause();
-
+        OneSignal.onPaused();
         super.onPause();
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         // Destroy the AdView.
         mAdView.destroy();
 
         super.onDestroy();
     }
+
+    private class ExampleNotificationOpenedHandler implements OneSignal.NotificationOpenedHandler
+    {
+        /**
+         * Callback to implement in your app to handle when a notification is opened from the Android status bar or
+         * a new one comes in while the app is running.
+         * This method is located in this activity as an example, you may have any class you wish implement NotificationOpenedHandler and define this method.
+         *
+         * @param message        The message string the user seen/should see in the Android status bar.
+         * @param additionalData The additionalData key value pair section you entered in on onesignal.com.
+         * @param isActive       Was the app in the foreground when the notification was received.
+         */
+        @Override
+        public void notificationOpened(String message, JSONObject additionalData, boolean isActive)
+        {
+            String messageTitle = "OneSignal Example", messageBody = message;
+
+            try
+            {
+                if (additionalData != null)
+                {
+                    if (additionalData.has("title"))
+                    {
+                        messageTitle = additionalData.getString("title");
+                    }
+                    if (additionalData.has("actionSelected"))
+                    {
+                        messageBody += "\nPressed ButtonID: " + additionalData.getString("actionSelected");
+                    }
+
+                    messageBody = message + "\n\nFull additionalData:\n" + additionalData.toString();
+                }
+            }
+            catch (JSONException e)
+            {
+            }
+
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle(messageTitle)
+                    .setMessage(messageBody)
+                    .setCancelable(true)
+                    .setPositiveButton("OK", null)
+                    .create().show();
+        }
+    }
+
+    // activity_main.xml defines the link to this method from the button.
+    public void sendTag(View view)
+    {
+        OneSignal.sendTag("key", "valueAndroid");
+    }
+
+    // activity_main.xml defines the link to this method from the button.
+    public void getIds(View view)
+    {
+        OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler()
+        {
+            @Override
+            public void idsAvailable(String userId, String registrationId)
+            {
+//                TextView textView = (TextView) findViewById(R.id.textViewIds);
+                String labelStr = "UserId: " + userId + "\n\nRegistrationId: ";
+                if (registrationId != null)
+                {
+                    labelStr += registrationId;
+                }
+                else
+                {
+                    labelStr += "Did not register. See Android LogCat for errors.";
+                }
+//                textView.setText(labelStr);
+                Log.i("OneSignalExample", labelStr + "\n");
+            }
+        });
+    }
 }
+
