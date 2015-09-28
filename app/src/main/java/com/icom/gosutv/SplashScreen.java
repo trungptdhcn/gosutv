@@ -49,6 +49,7 @@ public class SplashScreen extends Activity
         animatorSet.play(scaleXAnimation).with(scaleYAnimation).with(alphaAnimation);
         animatorSet.setStartDelay(500);
         animatorSet.start();
+        ///Hot fix
 
         new Handler().postDelayed(new Runnable()
         {
