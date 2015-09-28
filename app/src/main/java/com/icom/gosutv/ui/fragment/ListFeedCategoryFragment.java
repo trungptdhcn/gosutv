@@ -30,6 +30,7 @@ import com.icom.gosutv.ui.asyntask.LoadFeedAsyncTask;
 import com.icom.gosutv.ui.asyntask.ProgressAsync;
 import com.icom.gosutv.ui.event.AddCoverActivityEvent;
 import com.icom.gosutv.ui.listener.EndlessRecyclerOnScrollListener;
+import com.icom.gosutv.ui.listener.EndlessRecyclerOnScrollListener2;
 import com.icom.gosutv.ui.model.FeedModel;
 import com.icom.gosutv.utils.Constants;
 import com.icom.gosutv.utils.Utils;
@@ -62,9 +63,9 @@ public class ListFeedCategoryFragment extends BaseFragment implements ProgressAs
     FloatingActionButton floatingActionButton;
 
     private RecyclerView.Adapter mAdapter;
-    CommonRecycleViewAdapter adapter;
-//    CommonRecycleViewAdapter2 adapter;
-    LoadFeedAsyncTask loadFeedAsyncTask;
+//    CommonRecycleViewAdapter adapter;
+    List<FeedModel> feedModels = new ArrayList<>();
+        CommonRecycleViewAdapter2 adapter;
     private int gid;
 
     @Override
@@ -79,19 +80,20 @@ public class ListFeedCategoryFragment extends BaseFragment implements ProgressAs
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        gid = getArguments().getInt(Constants.GID,-1);
+        gid = getArguments().getInt(Constants.GID, -1);
         floatingActionButton.attachToRecyclerView(mRecyclerView);
         floatingActionButton.setColorNormal(getResources().getColor(R.color.main_color_500));
         floatingActionButton.setColorPressed(getResources().getColor(R.color.material_light_yellow_800));
         floatingActionButton.setColorRipple(getResources().getColor(R.color.material_yellow_50));
         progressWheel.setVisibility(View.VISIBLE);
-        RestfulService.getInstance().getListFeedsWithParams(0, 4, gid+"", null, "news", new Callback<ListFeedDTO>()
+        RestfulService.getInstance().getListFeedsWithParams(0, 4, gid + "", null, "news", new Callback<ListFeedDTO>()
         {
             @Override
             public void success(ListFeedDTO listFeedDTO, Response response)
             {
                 progressWheel.setVisibility(View.GONE);
-                afterAsync(FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs()));
+                feedModels = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
+                afterAsync(feedModels);
             }
 
             @Override
@@ -101,24 +103,90 @@ public class ListFeedCategoryFragment extends BaseFragment implements ProgressAs
                 Toast.makeText(getActivity(), "No network connection", Toast.LENGTH_SHORT).show();
             }
         });
+//        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager)
+//        {
+//            @Override
+//            public void onLoadMore(final int current_page)
+//            {
+////                feedModels.add(null);
+////                mAdapter.notifyItemInserted(adapter.getFeedModels().size());
+//                RestfulService.getInstance().getListFeedsWithParams(current_page, 4, gid+"", null, "news", new Callback<ListFeedDTO>()
+//                {
+//                    @Override
+//                    public void success(ListFeedDTO listFeedDTO, Response response)
+//                    {
+////                        feedModels.remove(feedModels.size() - 1);
+////                        mAdapter.notifyItemRemoved(feedModels.size());
+//                        List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
+//                        for (FeedModel feedModel : feedModels)
+//                        {
+//                            adapter.getFeedModels().add(feedModel);
+//                            adapter.notifyItemInserted(feedModels.size());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error)
+//                    {
+//                        Toast.makeText(getActivity(), "No network connection", Toast.LENGTH_SHORT);
+//                    }
+//                });
+//            }
+//        });
+
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager)
+//        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener2(mLayoutManager)
+//        {
+//            @Override
+//            public void onLoadMore(final int current_page)
+//            {
+//                feedModels.add(null);
+//                mAdapter.notifyItemInserted(feedModels.size());
+//                RestfulService.getInstance().getListFeedsWithParams(current_page, 4, gid+"", null, "news", new Callback<ListFeedDTO>()
+//                {
+//                    @Override
+//                    public void success(ListFeedDTO listFeedDTO, Response response)
+//                    {
+//                        feedModels.remove(feedModels.size() - 1);
+//                        mAdapter.notifyItemRemoved(feedModels.size());
+//                        List<FeedModel> feedModels2 = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
+//                        for (FeedModel feedModel : feedModels2)
+//                        {
+//                            feedModels.add(feedModel);
+//                            mAdapter.notifyItemInserted(feedModels.size());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error)
+//                    {
+//                        Toast.makeText(getActivity(), "No network connection", Toast.LENGTH_SHORT);
+//                    }
+//                });
+//            }
+//        });
+        EndlessRecyclerOnScrollListener2 scrollListener = new EndlessRecyclerOnScrollListener2(mLayoutManager)
         {
             @Override
             public void onLoadMore(final int current_page)
             {
+                feedModels.add(null);
+                mAdapter.notifyItemInserted(feedModels.size());
                 RestfulService.getInstance().getListFeedsWithParams(current_page, 4, gid+"", null, "news", new Callback<ListFeedDTO>()
                 {
                     @Override
                     public void success(ListFeedDTO listFeedDTO, Response response)
                     {
-                        progressWheel.setVisibility(View.GONE);
-                        List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
-                        for (FeedModel feedModel : feedModels)
+                        feedModels.remove(feedModels.size() - 1);
+                        mAdapter.notifyItemRemoved(feedModels.size());
+                        List<FeedModel> feedModels2 = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
+                        for (FeedModel feedModel : feedModels2)
                         {
-                            adapter.getFeedModels().add(feedModel);
-                            adapter.notifyDataSetChanged();
+                            feedModels.add(feedModel);
+                            mAdapter.notifyItemInserted(feedModels.size());
                         }
                     }
 
@@ -129,8 +197,8 @@ public class ListFeedCategoryFragment extends BaseFragment implements ProgressAs
                     }
                 });
             }
-        });
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+        };
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, scrollListener);
     }
 
     @Override
@@ -139,21 +207,40 @@ public class ListFeedCategoryFragment extends BaseFragment implements ProgressAs
         progressWheel.setVisibility(View.VISIBLE);
     }
 
+//    @Override
+//    public void afterAsync(List<FeedModel> feedModels)
+//    {
+//        progressWheel.setVisibility(View.GONE);
+//        adapter = new CommonRecycleViewAdapter(getActivity(), feedModels, false);
+//        mAdapter = new RecyclerViewMaterialAdapter(adapter);
+//        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver()
+//        {
+//            @Override
+//            public void onChanged()
+//            {
+//                super.onChanged();
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
+//        mRecyclerView.setAdapter(mAdapter);
+//    }
+
     @Override
     public void afterAsync(List<FeedModel> feedModels)
     {
         progressWheel.setVisibility(View.GONE);
-        adapter = new CommonRecycleViewAdapter(getActivity(), feedModels, false);
+        adapter = new CommonRecycleViewAdapter2(feedModels);
         mAdapter = new RecyclerViewMaterialAdapter(adapter);
-        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver()
-        {
-            @Override
-            public void onChanged()
-            {
-                super.onChanged();
-                adapter.notifyDataSetChanged();
-            }
-        });
+//        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver()
+//        {
+//            @Override
+//            public void onChanged()
+//            {
+//                super.onChanged();
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
         mRecyclerView.setAdapter(mAdapter);
     }
+
 }

@@ -144,6 +144,20 @@ public class ListFeedCategoryActivity extends AppCompatActivity
 
                     }
                 });
+                break;
+            case 11:
+                mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener()
+                {
+                    @Override
+                    public HeaderDesign getHeaderDesign(int page)
+                    {
+                        headerLogo.setText("OVERWATCH");
+                        return HeaderDesign.fromColorResAndUrl(
+                                R.color.main_color_500,
+                                "http://img.gosutv.vn/pictures/2015/05/28/1432798397_VEhvRYhn.jpg");
+                    }
+                });
+                break;
         }
 //        new AsyncTask<String, List<FeedDTO>, List<FeedDTO>>()
 //        {

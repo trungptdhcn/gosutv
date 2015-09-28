@@ -409,7 +409,7 @@ public class FeedDetailActivity extends YouTubeFailureRecoveryActivity implement
                 "iframe{max-width: 100%; width:100%; height: auto;}" +
                 "@font-face {\n" +
                 "    font-family: MyFont;\n" +
-                "    src: url(\"file:///android_asset/fonts/RobotoCondensed-Light.ttf\")\n" +
+                "    src: url(\"file:///android_asset/fonts/Roboto-Light.ttf\")\n" +
                 "}\n" +
                 "body {\n" +
                 "    font-family: MyFont;\n" +

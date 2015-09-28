@@ -28,7 +28,7 @@
                 android:maxLines="3"
                 android:text="Trungpt"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="14dp"
                 android:drawableLeft="@drawable/pencil_gray_big"
                 android:drawablePadding="3dp"
                 />
@@ -39,11 +39,16 @@
                 android:maxLines="3"
                 android:text="12"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="14dp"
                 android:layout_toRightOf="@+id/related_header_layout_tvAuthor"
                 android:layout_marginLeft="@dimen/spacing_small"
                 android:drawableLeft="@drawable/eye_gray_big"
                 android:drawablePadding="3dp"
                 />
     </RelativeLayout>
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"
+            android:layout_marginTop="@dimen/spacing_mini"/>
 </LinearLayout>

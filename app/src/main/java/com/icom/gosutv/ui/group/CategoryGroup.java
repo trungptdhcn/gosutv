@@ -52,10 +52,15 @@ public class CategoryGroup extends Group
                 {
                     intent.putExtra(Constants.GID, 3);
                 }
-                else
+                else if (position == 1)
                 {
                     intent.putExtra(Constants.GID, 4);
                 }
+                else if(position == 2)
+                {
+                    intent.putExtra(Constants.GID, 11);
+                }
+
                 context.startActivity(intent);
             }
         });

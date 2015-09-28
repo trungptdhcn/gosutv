@@ -21,7 +21,7 @@ public class ItemDTO
     @SerializedName("data")
     private List<PhotoDTO> photoDTOs;
     private String author;
-    private Integer like;
+    private String like;
     private String view;
     private Long comment;
 
@@ -125,12 +125,12 @@ public class ItemDTO
         this.author = author;
     }
 
-    public Integer getLike()
+    public String getLike()
     {
         return like;
     }
 
-    public void setLike(Integer like)
+    public void setLike(String like)
     {
         this.like = like;
     }

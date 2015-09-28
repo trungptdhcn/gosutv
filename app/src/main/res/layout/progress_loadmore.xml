@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_mini">
+    <TextView
+            android:id="@+id/progress_loadmore_tvMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/text_size_mini"
+            android:textColor="@color/gray"
+            android:text="Loading... "
+            android:layout_marginLeft="@dimen/spacing_mini"
+            />
     <ProgressBar
             android:id="@+id/progress_loadmore_pg"
             style="?android:attr/progressBarStyle"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:indeterminate="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/spacing_huge"
             android:indeterminateDuration="@integer/abc_config_activityDefaultDur"
+            android:layout_toLeftOf="@+id/progress_loadmore_tvMessage"
             />
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textSize="@dimen/text_size_mini"
-            android:textColor="@color/gray"
-            android:text="Loading Please Wait..."
-            android:layout_marginLeft="@dimen/spacing_mini"
-            android:layout_toRightOf="@+id/progress_loadmore_pg"/>
 </RelativeLayout>

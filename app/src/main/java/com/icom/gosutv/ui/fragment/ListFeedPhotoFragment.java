@@ -15,7 +15,9 @@ import com.icom.gosutv.sao.RestfulService;
 import com.icom.gosutv.sao.dto.FeedDTO;
 import com.icom.gosutv.sao.dto.ListFeedDTO;
 import com.icom.gosutv.ui.adapter.CommonRecycleViewAdapter;
+import com.icom.gosutv.ui.adapter.CommonRecycleViewAdapter2;
 import com.icom.gosutv.ui.listener.EndlessRecyclerOnScrollListener;
+import com.icom.gosutv.ui.listener.EndlessRecyclerOnScrollListener2;
 import com.icom.gosutv.ui.model.FeedModel;
 import com.icom.gosutv.utils.Constants;
 import com.icom.gosutv.utils.Utils;
@@ -42,7 +44,8 @@ public class ListFeedPhotoFragment extends BaseFragment
     FloatingActionButton floatingActionButton;
     @InjectView(R.id.fragment_recyclerview_bar)
     ProgressWheel progressWheel;
-    CommonRecycleViewAdapter adapter;
+    CommonRecycleViewAdapter2 adapter;
+    List<FeedModel> feedModels = new ArrayList<>();
 
     @Override
     public int getLayout()
@@ -68,8 +71,10 @@ public class ListFeedPhotoFragment extends BaseFragment
             public void success(ListFeedDTO listFeedDTO, Response response)
             {
                 progressWheel.setVisibility(View.GONE);
-                List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
+                feedModels = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
                 afterAsync(feedModels);
+//                List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
+//                afterAsync(feedModels);
 //                for (FeedModel feedModel : feedModels)
 //                {
 //                    adapter.getFeedModels().add(feedModel);
@@ -86,23 +91,53 @@ public class ListFeedPhotoFragment extends BaseFragment
         });
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager)
+//        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager)
+//        {
+//
+//            @Override
+//            public void onLoadMore(final int current_page)
+//            {
+//                RestfulService.getInstance().getListFeedsWithParams(current_page, 4, gid+"", null, "gallery", new Callback<ListFeedDTO>()
+//                {
+//                    @Override
+//                    public void success(ListFeedDTO listFeedDTO, Response response)
+//                    {
+//                        progressWheel.setVisibility(View.GONE);
+//                        List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
+//                        for (FeedModel feedModel : feedModels)
+//                        {
+//                            adapter.getFeedModels().add(feedModel);
+//                            adapter.notifyDataSetChanged();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error)
+//                    {
+//                        Toast.makeText(getActivity(), "No network connection", Toast.LENGTH_SHORT);
+//                    }
+//                });
+//            }
+//        });
+        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener2(mLayoutManager)
         {
-
             @Override
             public void onLoadMore(final int current_page)
             {
+                feedModels.add(null);
+                mAdapter.notifyItemInserted(feedModels.size());
                 RestfulService.getInstance().getListFeedsWithParams(current_page, 4, gid+"", null, "gallery", new Callback<ListFeedDTO>()
                 {
                     @Override
                     public void success(ListFeedDTO listFeedDTO, Response response)
                     {
-                        progressWheel.setVisibility(View.GONE);
-                        List<FeedModel> feedModels = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
-                        for (FeedModel feedModel : feedModels)
+                        feedModels.remove(feedModels.size() - 1);
+                        mAdapter.notifyItemRemoved(feedModels.size());
+                        List<FeedModel> feedModels2 = FeedModel.convertFromFeedDTO(listFeedDTO.getFeedDTOs());
+                        for (FeedModel feedModel : feedModels2)
                         {
-                            adapter.getFeedModels().add(feedModel);
-                            adapter.notifyDataSetChanged();
+                            feedModels.add(feedModel);
+                            mAdapter.notifyItemInserted(feedModels.size());
                         }
                     }
 
@@ -120,7 +155,7 @@ public class ListFeedPhotoFragment extends BaseFragment
     public void afterAsync(List<FeedModel> feedModels)
     {
         progressWheel.setVisibility(View.GONE);
-        adapter = new CommonRecycleViewAdapter(getActivity(), feedModels, false);
+        adapter = new CommonRecycleViewAdapter2(feedModels);
         mAdapter = new RecyclerViewMaterialAdapter(adapter);
         mRecyclerView.setAdapter(mAdapter);
     }

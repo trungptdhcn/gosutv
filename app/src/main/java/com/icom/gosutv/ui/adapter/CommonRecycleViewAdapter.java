@@ -35,6 +35,7 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
 {
     static final int TYPE_HEADER = 0;
     static final int TYPE_CELL = 1;
+    private final int TYPE_PROG = 3;
     private boolean sameType = false;
     private Activity activity;
 
@@ -51,13 +52,21 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public int getItemViewType(int position)
     {
-        switch (position)
+        if (position >= feedModels.size())
         {
-            case 0:
-                return TYPE_HEADER;
-            default:
-                return TYPE_CELL;
+            return TYPE_PROG;
         }
+        else
+        {
+            switch (position)
+            {
+                case 0:
+                    return TYPE_HEADER;
+                default:
+                    return TYPE_CELL;
+            }
+        }
+
     }
 
     @Override
@@ -66,11 +75,18 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
         RecyclerView.ViewHolder viewHolder = null;
         switch (viewType)
         {
+            case TYPE_PROG:
+            {
+                View v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.recycle_progress, parent, false);
+
+                viewHolder = new ProgressViewHolder(v);
+                break;
+            }
             case TYPE_HEADER:
             {
                 View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_card_big, parent, false);
                 viewHolder = new FeedHotViewHolder(v);
-
                 break;
             }
             case TYPE_CELL:
@@ -112,39 +128,45 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 });
                 break;
             case TYPE_CELL:
-                ((FeedViewHolder) holder).tvTitle.setText(Html.fromHtml(feedModels.get(position).getTitle()));
-                ((FeedViewHolder) holder).tvDes.setText(feedModels.get(position).getSapo());
-                ((FeedViewHolder) holder).tvAuthor.setText(feedModels.get(position).getAuthor());
-                ((FeedViewHolder) holder).tvView.setText(feedModels.get(position).getView());
+                if (feedModels.get(position) != null)
+                {
+                    ((FeedViewHolder) holder).tvTitle.setText(Html.fromHtml(feedModels.get(position).getTitle()));
+                    ((FeedViewHolder) holder).tvDes.setText(feedModels.get(position).getSapo());
+                    ((FeedViewHolder) holder).tvAuthor.setText(feedModels.get(position).getAuthor());
+                    ((FeedViewHolder) holder).tvView.setText(feedModels.get(position).getView());
 //                ImageUtil.displayImageWithSize(((FeedViewHolder) holder).ivImage, feedModels.get(position).getThumb()
 //                        , null, width / 3, width/4);
-                ImageUtil.displayImage(((FeedViewHolder) holder).ivImage, feedModels.get(position).getThumb()
-                        , null);
-                if (feedModels.get(position).getDisPlayType().equals(Constants.DISPLAY_TYPE_VIDEO))
-                {
-                    ((FeedViewHolder) holder).ivThumbnailPlay.setVisibility(View.VISIBLE);
-                    ((FeedViewHolder) holder).ivThumbnailPlay.setImageResource(R.drawable.play_thumbnail);
-                }
-                else if (feedModels.get(position).getDisPlayType().equals(Constants.DISPLAY_TYPE_PHOTO))
-                {
-                    ((FeedViewHolder) holder).ivThumbnailPlay.setVisibility(View.VISIBLE);
-                    ((FeedViewHolder) holder).ivThumbnailPlay.setImageResource(R.drawable.gallery);
-                }
-                else
-                {
-                    ((FeedViewHolder) holder).ivThumbnailPlay.setVisibility(View.GONE);
-                }
-                ((FeedViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View view)
+                    ImageUtil.displayImage(((FeedViewHolder) holder).ivImage, feedModels.get(position).getThumb()
+                            , null);
+                    if (feedModels.get(position).getDisPlayType().equals(Constants.DISPLAY_TYPE_VIDEO))
                     {
-                        Intent intent = new Intent(view.getContext(), FeedDetailActivity.class);
-                        String slug = feedModels.get(position).getSlug();
-                        intent.putExtra(Constants.SLUG, slug);
-                        view.getContext().startActivity(intent);
+                        ((FeedViewHolder) holder).ivThumbnailPlay.setVisibility(View.VISIBLE);
+                        ((FeedViewHolder) holder).ivThumbnailPlay.setImageResource(R.drawable.play_thumbnail);
                     }
-                });
+                    else if (feedModels.get(position).getDisPlayType().equals(Constants.DISPLAY_TYPE_PHOTO))
+                    {
+                        ((FeedViewHolder) holder).ivThumbnailPlay.setVisibility(View.VISIBLE);
+                        ((FeedViewHolder) holder).ivThumbnailPlay.setImageResource(R.drawable.gallery);
+                    }
+                    else
+                    {
+                        ((FeedViewHolder) holder).ivThumbnailPlay.setVisibility(View.GONE);
+                    }
+                    ((FeedViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View view)
+                        {
+                            Intent intent = new Intent(view.getContext(), FeedDetailActivity.class);
+                            String slug = feedModels.get(position).getSlug();
+                            intent.putExtra(Constants.SLUG, slug);
+                            view.getContext().startActivity(intent);
+                        }
+                    });
+                }
+                break;
+            case TYPE_PROG:
+                ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
                 break;
         }
 
@@ -231,6 +253,7 @@ public class CommonRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         }
     }
+
 
     public List<FeedModel> getFeedModels()
     {
